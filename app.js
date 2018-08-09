@@ -131,7 +131,7 @@ app.use('/blog',blog);
 app.use('/settings',settings);
 app.use('/products',products);
 //app.use('/pdf',pdf_file);
-
+ 
 //Start Server
 app.listen(PORT, function(){
   console.log('Server started on port '+PORT+'....');
