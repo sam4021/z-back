@@ -68,84 +68,16 @@ router.get('/product-info-count/:id', function(req, res, next){
 
 //Get Product Info Using URL
 router.get('/product-info/:id', function(req, res, next){
-  Products.
-  findOne({url:req.params.id}).
-  select('associate_products').
-  exec(function (err, products) {
-    if (err) {
-      return res.status(500).send({message: err.message});
-    }
-        if (products){
-          let Assoc = products.associate_products;
-          // if (Array.isArray(Assoc)) {
-          if (Assoc !='') {
-            Products.
-            findOne({url:req.params.id}).
-            populate('associate_products','title url price special_price images',Products).
-            populate('desc_entity.entity','title',Entities).
-            exec(function (err, products) {
-              if (err) {
-                return res.status(500).send({message: err.message});
-              }
-              res.send(products);
-            });
-          } else {
-            Products.
-            findOne({url:req.params.id}).
-            populate('desc_entity.entity','title',Entities).
-            exec(function (err, products) {
-              if (err) {
-                return res.status(500).send({message: err.message});
-              }
-              res.send(products);
-            });
-          }
-        } else{
-          // let prod =req.params.id;
-          // let sliced = prod.slice(0, 20).replace(/-/g, ' ');
-          // console.log(sliced);
-          // var withNoDigits = sliced.replace(/[0-9]/g, '');
-          // console.log(withNoDigits);
-          // var reg=new RegExp(withNoDigits, 'i');
-          // Products.
-          // find({title:reg,is_web_active:1,deleted: 0}).
-          // exec(function (err, regProducts) {
-          //   let prodArr = [];
-          //   if (err) {
-          //     return res.status(500).send({message: err.message});
-          //   }
-          //   if (regProducts) {
-          //     console.log(regProducts);
-          //   } else {
-          //     res.send({"message":"Not Found"});
-          //   }
-            // let Assoc = products.associate_products;
-            // if (Assoc !='') {
-            //   Products.
-            //   findById(products.id).
-            //   populate('associate_products','title url price special_price images',Products).
-            //   exec(function (err, products) {
-            //     if (err) {
-            //       return res.status(500).send({message: err.message});
-            //     }
-            //     res.send(products);
-            //   });
-            // } else {
-            //   Products.
-            //   findById(products.id).
-            //   exec(function (err, products) {
-            //     if (err) {
-            //       return res.status(500).send({message: err.message});
-            //     }
-            //     res.send(products);
-            //   });
-            // }
-          //});
 
-
-        }
-
-  });
+    Products.
+    findOne({url:req.params.id}).
+    populate('desc_entity.entity','title',Entities).
+    exec(function (err, products) {
+      if (err) {
+        return res.status(500).send({message: err.message});
+      }
+      res.send(products);
+    });
 });
 
 //Get Product Seo
