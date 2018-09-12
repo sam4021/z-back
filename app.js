@@ -101,7 +101,8 @@ app.engine('html', require('ejs').renderFile);
 app.get('/login', function(req, res){
 	res.render('login');
 });
-
+const user = require('./routes/user');
+app.use('/user',user);
 
 const api = require('./routes/api2');
 app.use('/api',api);
@@ -111,8 +112,7 @@ app.use(function(req, res, next){
   else res.redirect('/login');
 });
 
-const user = require('./routes/user');
-app.use('/user',user);
+
 const index = require('./routes/index');
 const client = require('./routes/client');
 const home = require('./routes/home');

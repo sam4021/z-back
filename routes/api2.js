@@ -619,6 +619,27 @@ router.get('/home-category-mobile', function(req, res, next){
   });
 });
 
+//Get Home Offer
+router.get('/home-offer', function(req, res, next){
+  Products.find({is_web_active: 1,deleted: 0}).
+  select('title url price images special_price ').
+  where("special_price").
+  ne(0).
+  limit(4).
+    exec((err, products)=>{
+    let prodArr = [];
+    if (err) {
+      return res.status(500).send({message: err.message});
+    }
+    if (products) {
+      products.forEach(prod => {
+        prodArr.push(prod);
+      });
+    }
+    res.send(prodArr);
+  });
+});
+
 //Get Home Blog Mobile
 router.get('/home-blog-mobile', function(req, res, next){
   Blog.
