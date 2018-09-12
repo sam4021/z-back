@@ -71,8 +71,8 @@ font-size: 12px;
 }
 .table .thead-dark th {
 background-color: #fff;
-color: #30a098;
-border-color: #30a098;
+color: #295e99;
+border-color: #295e99;
 }
 #total-table{
 width: 100%;
@@ -175,8 +175,8 @@ font-size: 12px;
         }
         .table .thead-dark th {
         background-color: #fff;
-        color: #30a098;
-        border-color: #30a098;
+        color: #295e99;
+        border-color: #295e99;
         }
         #total-table{
         width: 100%;
