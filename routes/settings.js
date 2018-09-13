@@ -24,7 +24,7 @@ router.get('/', function(req, res, next){
   Attributes.find({},function(err, attrib){
     Brand.find({}, function(err, brand){
       Entities.find({}, function(err, entity){
-        Category.find({}, (err, category) =>{
+        Category.find({}, (err, category) =>{ 
           AttribEntities.find({},(err,att)=>{
               PhoneMainAds.find({},(err,ads)=>{
                 PhoneMainSlider.find({},(err,slider)=>{
@@ -937,7 +937,7 @@ router.get('/getcat/:id',function(req, res){
 });
 
 router.get('/edit-category/:id',function(req, res){
-  let query = {_id:req.params.id}
+  let query = {_id:req.params.id} 
 
   Category.findById(req.params.id, function(err, category){
     // res.send('<form action="/settings/edit-category" method="post"><div class="row"><div class="form-group col-md-6"><label class="control-label col-md-3 col-sm-3 col-xs-12">Name</label><div class="col-md-9 col-sm-9 col-xs-12"><input type="text" name="title" class="form-control" value="'+category.title+'"></div></div><div class="form-group col-md-6"><label class="control-label col-md-3 col-sm-3 col-xs-12">Top Image</label><div class="col-md-9 col-sm-9 col-xs-12"><input type="text" name="img" class="form-control" value="'+category.top_ad.img+'"></div></div><div class="form-group col-md-6"><label class="control-label col-md-3 col-sm-3 col-xs-12">Top Link</label><div class="col-md-9 col-sm-9 col-xs-12"><input type="text" name="link" class="form-control" value="'+category.top_ad.link+'"></div></div><div class="form-group col-md-6"><label class="control-label col-md-3 col-sm-3 col-xs-12">Keywords</label><div class="col-md-9 col-sm-9 col-xs-12"><textarea name="keywords" class="form-control tinymce">'+category.seo.keywords+'</textarea></div></div><div class="form-group col-md-6"><label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label><div class="col-md-9 col-sm-9 col-xs-12"><textarea name="description" class="form-control tinymce">'+category.seo.description+'</textarea></div></div><div class="form-group col-md-6"><label class="control-label col-md-3 col-sm-3 col-xs-12">Footer Seo</label><div class="col-md-9 col-sm-9 col-xs-12"><textarea name="footer_seo" class="form-control tinymce">'+category.footer_seo+'</textarea></div></div></div><div class="row"><div class="form-actions"><button type="submit" class="btn btn-primary">Submit</button></div></div><input type="hidden" name="id" class="form-control" value="'+category.id+'"></form>');
