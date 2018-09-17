@@ -197,213 +197,213 @@
 			  </div>
 			</div>
 		</div>
-		<div class="tab-pane fade" id="FrontEnd" role="tabpanel" aria-labelledby="FrontEnd-tab">
-			<div class="row">
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="border-radius">
-							<h4 class="h4-header">Main Slider</h4>
-							<a href="/settings/add-slider" class="btn btn-success pull-right" style="margin:0px 5px;">Add</a>
-							<div class="clearfix"></div>
-							<table class="table table-striped table-hover table-sm data-tables">
-								<thead class="thead-dark">
+	</div>
+	<div class="tab-pane fade" id="FrontEnd" role="tabpanel" aria-labelledby="FrontEnd-tab">
+		<div class="row">
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="border-radius">
+						<h4 class="h4-header">Main Slider</h4>
+						<a href="/settings/add-slider" class="btn btn-success pull-right" style="margin:0px 5px;">Add</a>
+						<div class="clearfix"></div>
+						<table class="table table-striped table-hover table-sm data-tables">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">Image</th>
+									<th scope="col">Link</th>
+									<th scope="col">Sort</th>
+									<th scope="col" class="actions">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(var s of slider){ %>
 									<tr>
-										<th scope="col">Image</th>
-										<th scope="col">Link</th>
-										<th scope="col">Sort</th>
-										<th scope="col" class="actions">Actions</th>
+										<td>
+											<%= s.image %>
+										</td>
+										<td>
+											<%= s.link %>
+										</td>
+										<td>
+											<%= s.sort %>
+										</td>
+										<td></td>
 									</tr>
-								</thead>
-								<tbody>
-									<% for(var s of slider){ %>
-										<tr>
-											<td>
-												<%= s.image %>
-											</td>
-											<td>
-												<%= s.link %>
-											</td>
-											<td>
-												<%= s.sort %>
-											</td>
-											<td></td>
-										</tr>
-									<% } %>
-								</tbody>
-							</table>
-						</div>
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="border-radius">
-							<h4 class="h4-header">Featured Products</h4>
-							<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#addFeatured" style="margin:0px 5px;">Add</button>
-							<div class="clearfix"></div>
-							<table class="table table-striped table-hover table-sm data-tables">
-								<thead class="thead-dark">
+								<% } %>
+							</tbody>
+						</table>
+					</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="border-radius">
+						<h4 class="h4-header">Featured Products</h4>
+						<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#addFeatured" style="margin:0px 5px;">Add</button>
+						<div class="clearfix"></div>
+						<table class="table table-striped table-hover table-sm data-tables">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">Title</th>
+									<th scope="col" class="actions">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(var f of featured){ %>
 									<tr>
-										<th scope="col">Title</th>
-										<th scope="col" class="actions">Actions</th>
+										<td>
+											<% for(var p of products){
+												if(f.product == p.id){ %>
+													<%= p.title.slice(0, 20).toLowerCase() %>
+											<% }
+											}%>
+										</td>
+										<td> <a href="/settings/delete-featured/<%= f.id %>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Product?');">DELETE</a> </td>
 									</tr>
-								</thead>
-								<tbody>
-									<% for(var f of featured){ %>
-										<tr>
-											<td>
-												<% for(var p of products){
-													if(f.product == p.id){ %>
-														<%= p.title.slice(0, 20).toLowerCase() %>
+								<% } %>
+							</tbody>
+						</table>
+					</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="border-radius">
+						<h4 class="h4-header">Home Category</h4>
+						<a href="/settings/add-main-category" class="btn btn-success pull-right">Add</a>
+						<div class="clearfix"></div>
+						<table class="table table-striped table-hover table-sm data-tables">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">Category</th>
+									<th scope="col">Main Image</th>
+									<th scope="col" class="actions">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(var m of mCategory){ %>
+									<tr>
+										<td>
+											<%
+											for(var c of category){
+												if(c.id == m.category){ %>
+													<%= c.title %>
 												<% }
-												}%>
-											</td>
-											<td> <a href="/settings/delete-featured/<%= f.id %>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this Product?');">DELETE</a> </td>
-										</tr>
-									<% } %>
-								</tbody>
-							</table>
-						</div>
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="border-radius">
-							<h4 class="h4-header">Home Category</h4>
-							<a href="/settings/add-main-category" class="btn btn-success pull-right">Add</a>
-							<div class="clearfix"></div>
-							<table class="table table-striped table-hover table-sm data-tables">
-								<thead class="thead-dark">
-									<tr>
-										<th scope="col">Category</th>
-										<th scope="col">Main Image</th>
-										<th scope="col" class="actions">Actions</th>
+											}
+											%>
+										</td>
+										<td>
+											<img src="https://www.static.phonestablets.co.ke/img<%= m.image.img %>" alt="<%= m.image.alt %>" width="100px">
+											<br>
+											<%= m.image.link %>
+										</td>
+										<td><a href="/settings/edit-main-category/<%=m.id%>">Edit</a>
+											<!-- <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+												<button type="button" class="btn btn-info" onclick="edit_location('<%= m.id %>')">Edit</button>
+											</div> -->
+										</td>
 									</tr>
-								</thead>
-								<tbody>
-									<% for(var m of mCategory){ %>
-										<tr>
-											<td>
-												<%
-												for(var c of category){
-													if(c.id == m.category){ %>
-														<%= c.title %>
-													<% }
-												}
-												%>
-											</td>
-											<td>
-												<img src="https://www.static.phonestablets.co.ke/img<%= m.image.img %>" alt="<%= m.image.alt %>" width="100px">
-												<br>
-												<%= m.image.link %>
-											</td>
-											<td><a href="/settings/edit-main-category/<%=m.id%>">Edit</a>
-												<!-- <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-						              <button type="button" class="btn btn-info" onclick="edit_location('<%= m.id %>')">Edit</button>
-						            </div> -->
-											</td>
-										</tr>
-									<% } %>
-								</tbody>
-							</table>
-						</div>
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="border-radius">
-							<h4 class="h4-header">Delivery Location</h4>
-							<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#addLocation" style="margin:0px 5px;">Add</button>
-							<div class="clearfix"></div>
-							<table class="table table-striped table-hover table-sm data-tables">
-								<thead class="thead-dark">
+								<% } %>
+							</tbody>
+						</table>
+					</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="border-radius">
+						<h4 class="h4-header">Delivery Location</h4>
+						<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#addLocation" style="margin:0px 5px;">Add</button>
+						<div class="clearfix"></div>
+						<table class="table table-striped table-hover table-sm data-tables">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">Region</th>
+									<th scope="col">Location</th>
+									<th scope="col" class="actions">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(var l of location){ %>
 									<tr>
-										<th scope="col">Region</th>
-										<th scope="col">Location</th>
-										<th scope="col" class="actions">Actions</th>
+										<td>
+											<%= l.region %>
+										</td>
+										<td>
+											<%= l.location %>
+										</td>
+										<td>
+											<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+												<button type="button" class="btn btn-info" onclick="edit_location('<%= l.id %>')">Edit</button>
+											</div>
+										</td>
 									</tr>
-								</thead>
-								<tbody>
-									<% for(var l of location){ %>
-										<tr>
-											<td>
-												<%= l.region %>
-											</td>
-											<td>
-												<%= l.location %>
-											</td>
-											<td>
-												<div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-						              <button type="button" class="btn btn-info" onclick="edit_location('<%= l.id %>')">Edit</button>
-						            </div>
-											</td>
-										</tr>
-									<% } %>
-								</tbody>
-							</table>
-						</div>
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="border-radius">
-							<h4 class="h4-header">Courier</h4>
-							<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#addCourier" style="margin:0px 5px;">Add</button>
-							<div class="clearfix"></div>
-							<table class="table table-striped table-hover table-sm data-tables">
-								<thead class="thead-dark">
+								<% } %>
+							</tbody>
+						</table>
+					</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="border-radius">
+						<h4 class="h4-header">Courier</h4>
+						<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#addCourier" style="margin:0px 5px;">Add</button>
+						<div class="clearfix"></div>
+						<table class="table table-striped table-hover table-sm data-tables">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">Name</th>
+									<th scope="col">Phone</th>
+									<th scope="col">Email</th>
+									<th scope="col" class="actions">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(var c of courier){ %>
 									<tr>
-										<th scope="col">Name</th>
-										<th scope="col">Phone</th>
-										<th scope="col">Email</th>
-										<th scope="col" class="actions">Actions</th>
+										<td>
+											<%= c.name %>
+										</td>
+										<td>
+											<%= c.phone %>
+										</td>
+										<td>
+											<%= c.email %>
+										</td>
+										<td>
+											<a href="/settings/courier/<%= c.id %>">View</a>
+										</td>
 									</tr>
-								</thead>
-								<tbody>
-									<% for(var c of courier){ %>
-										<tr>
-											<td>
-												<%= c.name %>
-											</td>
-											<td>
-												<%= c.phone %>
-											</td>
-											<td>
-												<%= c.email %>
-											</td>
-											<td>
-												<a href="/settings/courier/<%= c.id %>">View</a>
-											</td>
-										</tr>
-									<% } %>
-								</tbody>
-							</table>
-						</div>
-				</div>
-				<div class="col-md-6 col-sm-6 col-xs-12">
-					<div class="border-radius">
-							<h4 class="h4-header">Front Shipping</h4>
-							<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#addShipping" style="margin:0px 5px;">Add</button>
-							<div class="clearfix"></div>
-							<table class="table table-striped table-hover table-sm data-tables">
-								<thead class="thead-dark">
+								<% } %>
+							</tbody>
+						</table>
+					</div>
+			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="border-radius">
+						<h4 class="h4-header">Front Shipping</h4>
+						<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#addShipping" style="margin:0px 5px;">Add</button>
+						<div class="clearfix"></div>
+						<table class="table table-striped table-hover table-sm data-tables">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">Location</th>
+									<th scope="col">Amount</th>
+									<th scope="col" class="actions">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(var s of shipping){ %>
 									<tr>
-										<th scope="col">Location</th>
-										<th scope="col">Amount</th>
-										<th scope="col" class="actions">Actions</th>
+										<td>
+											<% for(var l of location){
+												if(s.location == l.id){ %>
+											<%= l.location %>
+											<% } } %>
+										</td>
+										<td>
+											<%= s.amount %>
+										</td>
+										<td>
+											<a href="/settings/edit-main-shipping/<%= s.id %>">Edit</a>
+										</td>
 									</tr>
-								</thead>
-								<tbody>
-									<% for(var s of shipping){ %>
-										<tr>
-											<td>
-												<% for(var l of location){
-													if(s.location == l.id){ %>
-												<%= l.location %>
-												<% } } %>
-											</td>
-											<td>
-												<%= s.amount %>
-											</td>
-											<td>
-												<a href="/settings/edit-main-shipping/<%= s.id %>">Edit</a>
-											</td>
-										</tr>
-									<% } %>
-								</tbody>
-							</table>
-						</div>
-				</div>
+								<% } %>
+							</tbody>
+						</table>
+					</div>
 			</div>
 		</div>
 	</div>
