@@ -22,6 +22,7 @@ let DeliveryLocation = require('../models/delivery_locations');
 let CourierLocation = require('../models/courier_location');
 let Courier = require('../models/courier');
 let PhoneMainSlider = require('../models/phone_main_slider');
+let PhoneMainSide = require('../models/phone_main_side');
 let PhoneMainShipping = require('../models/phone_main_shipping');
 
 let SaleWeb = require('../models/sale_web');
@@ -43,6 +44,25 @@ router.get('/main-slider', function(req, res, next){
     }
     if (slider) {
       slider.forEach(prod => {
+        prodArr.push(prod);
+      });
+    }
+    res.send(prodArr);
+  });
+});
+
+//Get Side Ad
+router.get('/side-ad', function(req, res, next){
+  PhoneMainSide.
+  find().
+  sort({sort: 'descending'}).
+  exec(function (err, side) {
+    let prodArr = [];
+    if (err) {
+      return res.status(500).send({message: err.message});
+    }
+    if (side) {
+      side.forEach(prod => {
         prodArr.push(prod);
       });
     }
