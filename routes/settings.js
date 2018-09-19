@@ -12,6 +12,8 @@ var storage = multer.diskStorage({
   }
 });
 var imageFilter = function (req, file, cb) {
+  console.log(file);
+  
     // accept image files only
     if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
         return cb(new Error('Only image files are allowed!'), false);
@@ -39,6 +41,7 @@ let Category = require('../models/product_category');
 let PhoneMainCategory = require('../models/phone_main_category');
 let PhoneMainAds = require('../models/phone_main_ads');
 let PhoneMainSlider = require('../models/phone_main_slider');
+let PhoneMainSide = require('../models/phone_main_side');
 let PhoneProductsFeatured = require('../models/phone_products_featured');
 let PhoneMainShipping = require('../models/phone_main_shipping');
 let Courier = require('../models/courier');
@@ -53,6 +56,7 @@ router.get('/', function(req, res, next){
           AttribEntities.find({},(err,att)=>{
               PhoneMainAds.find({},(err,ads)=>{
                 PhoneMainSlider.find({},(err,slider)=>{
+                  PhoneMainSide.find({},(err,side_ad)=>{
                   PhoneMainCategory.find({},(err,mCategory)=>{
                     PhoneProductsFeatured.find({},(err,featured)=>{
                       Products.find({is_web_active:1, deleted: 0},(err,products)=>{
@@ -67,6 +71,7 @@ router.get('/', function(req, res, next){
                                 att: att,
                                 ads: ads,
                                 slider: slider,
+                                side_ad: side_ad,
                                 mCategory: mCategory,
                                 featured: featured,
                                 products: products,
@@ -81,6 +86,7 @@ router.get('/', function(req, res, next){
                     });
                   });
                 });
+              });
               });
           });
         });
@@ -353,32 +359,27 @@ router.get('/add-slider', function(req, res){
 
 router.post("/add-slider", function(req, res) {  
   //router.post("/add-slider", upload.single('image'), function(req, res) {  
-    var fileGettingUploaded = req.files.image.path;
-    console.log(req.body, req.files, req.protocol);
-   cloudinary.v2.uploader.upload(fileGettingUploaded, function(err, result) {
-    if(err) {
-      // req.flash('error', err.message);
-      // return res.redirect('back');
-    }
-    // console.log(req.files);
+   //cloudinary.v2.uploader.upload(fileGettingUploaded, function(err, result) {
+    cloudinary.uploader.upload_stream((cloud_img) => {     
+            let slider= new PhoneMainSlider();
+            slider.link = req.body.link;
+            slider.image = cloud_img.secure_url;
+            slider.sort = req.body.sort;
+            slider.alt = req.body.alt;
+            slider.save(function(err){
+              if(err){
+                req.flash('danger','Slider not added');
+                console.log(err);
+                return;
+              }
+            });
+
+          req.flash('success','Slider added');
+          res.redirect('/settings/');
+        }
     
-    // add cloudinary url for the image to the campground object under image property
-    //req.body.campground.image = result.secure_url;
-    // add image's public_id to campground object
-    //req.body.campground.imageId = result.public_id;
-    // add author to campground
-    // req.body.campground.author = {
-    //   id: req.user._id,
-    //   username: req.user.username
-    // }
-    // Campground.create(req.body.campground, function(err, campground) {
-    //   if (err) {
-    //     req.flash('error', err.message);
-    //     return res.redirect('back');
-    //   }
-    //   res.redirect('/campgrounds/' + campground.id);
-    // });
-  });
+  )
+    .end(req.files.image.data);
 });
 
 //Edit Main Category
@@ -392,20 +393,17 @@ router.get('/edit-slider/:id', function(req, res){
 
 //Edit Main Slider
 router.post('/edit-slider/:id', function(req,res){
-  req.checkBody('main','Image is required').notEmpty();
   req.checkBody('link','Link is required').notEmpty();
   req.checkBody('alt','Alt Text is required').notEmpty();
 
   req.asyncValidationErrors().then(() => {
         let sort = req.body.sort;
-        let image = req.body.image;
         let link = req.body.link;
         let alt = req.body.alt;
 
         PhoneMainSlider.updateMany({ _id:req.params.id },{
           $set:{
             sort: sort ,
-            image:image,
             link: link ,
             alt:alt,
            }
@@ -425,6 +423,107 @@ router.post('/edit-slider/:id', function(req,res){
           return;
         };
     });
+});
+
+//Delete Slider
+router.get('/delete-slider/:id',(req, res)=>{
+  PhoneMainSlider.findById(req.params.id,(err,slider)=>{
+    var id= slider.id;
+    
+    var image = /[^/]*$/.exec(slider.image)[0];
+    var publicId = image.replace(/\..+$/, '');
+    cloudinary.v2.uploader.destroy(publicId, function(error, result){console.log(result, error)});
+  });
+  PhoneMainSlider.remove({ _id:req.params.id }, function (err) {
+    console.log(err);
+  });
+  res.redirect('/settings');
+});
+
+//Add Main Side
+router.get('/add-side-ad', function(req, res){
+  res.render('pages/settings/add-side-ad');
+});
+
+router.post("/add-side-ad", function(req, res) {  
+    cloudinary.uploader.upload_stream((cloud_img) => {     
+            let side= new PhoneMainSide();
+            side.link = req.body.link;
+            side.image = cloud_img.secure_url;
+            side.sort = req.body.sort;
+            side.alt = req.body.alt;
+            side.save(function(err){
+              if(err){
+                req.flash('danger','Side not added');
+                console.log(err);
+                return;
+              }
+            });
+
+          req.flash('success','Side added');
+          res.redirect('/settings/');
+        }
+    
+  )
+    .end(req.files.image.data);
+});
+
+//Edit Side
+router.get('/edit-side-ad/:id', function(req, res){
+  PhoneMainSide.findById(req.params.id,(err,side)=>{
+    res.render('pages/settings/edit-side-ad',{
+      side: side,
+    });
+  });
+});
+
+//Edit Side
+router.post('/edit-side-ad/:id', function(req,res){
+  req.checkBody('link','Link is required').notEmpty();
+  req.checkBody('alt','Alt Text is required').notEmpty();
+
+  req.asyncValidationErrors().then(() => {
+        let sort = req.body.sort;
+        let link = req.body.link;
+        let alt = req.body.alt;
+
+        PhoneMainSide.updateMany({ _id:req.params.id },{
+          $set:{
+            sort: sort ,
+            link: link ,
+            alt:alt,
+           }
+        }, { multi: true }).exec();
+
+      req.flash('success','Side Edited');
+      res.redirect('/settings/');
+    }).catch((errors) => {
+
+        if(errors) {
+          for (var i = 0; i < errors.length; i++) {
+            var param = errors[i].param;
+            var msg = errors[i].msg;
+            req.flash('danger', errors[i].msg);
+          }
+          res.redirect('/settings/edit-side-ad/'+req.params.id);
+          return;
+        };
+    });
+});
+
+//Delete Side
+router.get('/delete-side-ad/:id',(req, res)=>{
+  PhoneMainSide.findById(req.params.id,(err,slider)=>{
+    var id= slider.id;
+    
+    var image = /[^/]*$/.exec(slider.image)[0];
+    var publicId = image.replace(/\..+$/, '');
+    cloudinary.v2.uploader.destroy(publicId, function(error, result){console.log(result, error)});
+  });
+  PhoneMainSide.remove({ _id:req.params.id }, function (err) {
+    console.log(err);
+  });
+  res.redirect('/settings');
 });
 
 //Load Courier Info

@@ -1,33 +1,20 @@
 <% include ../../partials/header %>
 <div class="page-header">
 	<div class="page-title">
-    Edit Main Slider
+    Edit Side Ad
 	</div>
 	<div class="page-actions">
 
 	</div>
 </div>
 <div class="page-content">
-  <form action="/settings/edit-slider/<%= slider.id %>" method="post" autocomplete="off">
+  <form action="/settings/edit-side-ad/<%= side.id %>" method="post" autocomplete="off">
     <div class="row">
-     <!-- <div class="col-md-6">
-       <div class="form-group">
-         <label class="control-label col-md-12 col-sm-12 col-xs-12">Image</label>
-         <div class="col-md-12 col-sm-12 col-xs-12">
-           <input type="file" name="image" class="form-control" value="">
-           <% if(slider.image){ %>
-            <img src="<%= slider.image %>">
-            <input type="hidden" name="img" class="form-control" value="<%= slider.image %>">
-           <% } %>
-           
-         </div>
-       </div>
-		 </div> -->
 		 <div class="col-md-6">
        <div class="form-group">
          <label class="control-label col-md-12 col-sm-12 col-xs-12">Image Link</label>
          <div class="col-md-12 col-sm-12 col-xs-12">
-           <input type="text" name="link" class="form-control" value="<%= slider.link %>">
+           <input type="text" name="link" class="form-control" value="<%= side.link %>">
          </div>
        </div>
 		 </div>
@@ -35,7 +22,7 @@
        <div class="form-group">
          <label class="control-label col-md-12 col-sm-12 col-xs-12">Image Title</label>
          <div class="col-md-12 col-sm-12 col-xs-12">
-           <input type="text" name="alt" class="form-control" value="<%= slider.alt %>">
+           <input type="text" name="alt" class="form-control" value="<%= side.alt %>">
          </div>
        </div>
 		 </div>
@@ -43,7 +30,7 @@
 			 <div class="form-group">
          <label class="control-label col-md-12 col-sm-12 col-xs-12">Image Sort</label>
          <div class="col-md-12 col-sm-12 col-xs-12">
-           <input type="number" name="sort" class="form-control" value="<%= slider.sort %>">
+           <input type="number" name="sort" class="form-control" value="<%= side.sort %>">
          </div>
        </div>
 		 </div>

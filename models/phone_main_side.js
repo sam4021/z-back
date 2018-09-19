@@ -29,4 +29,4 @@ PhoneMainSideSchema.plugin(timestamps,  {
   updatedAt: 'updated_at'
 });
 
-const PhoneMainSideSchema = module.exports = mongoose.model('phone_main_side', PhoneMainSideSchema);
+const PhoneMainSide = module.exports = mongoose.model('phone_main_side', PhoneMainSideSchema);
