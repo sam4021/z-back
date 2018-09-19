@@ -42,6 +42,7 @@ let PhoneMainCategory = require('../models/phone_main_category');
 let PhoneMainAds = require('../models/phone_main_ads');
 let PhoneMainSlider = require('../models/phone_main_slider');
 let PhoneMainSide = require('../models/phone_main_side');
+let PhoneMainMiddle = require('../models/phone_main_middle');
 let PhoneProductsFeatured = require('../models/phone_products_featured');
 let PhoneMainShipping = require('../models/phone_main_shipping');
 let Courier = require('../models/courier');
@@ -57,6 +58,7 @@ router.get('/', function(req, res, next){
               PhoneMainAds.find({},(err,ads)=>{
                 PhoneMainSlider.find({},(err,slider)=>{
                   PhoneMainSide.find({},(err,side_ad)=>{
+                    PhoneMainMiddle.find({},(err,middle_ad)=>{
                   PhoneMainCategory.find({},(err,mCategory)=>{
                     PhoneProductsFeatured.find({},(err,featured)=>{
                       Products.find({is_web_active:1, deleted: 0},(err,products)=>{
@@ -72,6 +74,7 @@ router.get('/', function(req, res, next){
                                 ads: ads,
                                 slider: slider,
                                 side_ad: side_ad,
+                                middle_ad: middle_ad,
                                 mCategory: mCategory,
                                 featured: featured,
                                 products: products,
@@ -88,6 +91,7 @@ router.get('/', function(req, res, next){
                 });
               });
               });
+            });
           });
         });
       });
@@ -521,6 +525,92 @@ router.get('/delete-side-ad/:id',(req, res)=>{
     cloudinary.v2.uploader.destroy(publicId, function(error, result){console.log(result, error)});
   });
   PhoneMainSide.remove({ _id:req.params.id }, function (err) {
+    console.log(err);
+  });
+  res.redirect('/settings');
+});
+
+//Add Main Side
+router.get('/add-middle-ad', function(req, res){
+  res.render('pages/settings/add-middle-ad');
+});
+
+router.post("/add-middle-ad", function(req, res) {  
+    cloudinary.uploader.upload_stream((cloud_img) => {     
+            let side= new PhoneMainMiddle();
+            side.link = req.body.link;
+            side.image = cloud_img.secure_url;
+            side.sort = req.body.sort;
+            side.alt = req.body.alt;
+            side.save(function(err){
+              if(err){
+                req.flash('danger','Middle Ad not added');
+                console.log(err);
+                return;
+              }
+            });
+
+          req.flash('success','Middle Ad added');
+          res.redirect('/settings/');
+        }
+    
+  )
+    .end(req.files.image.data);
+});
+
+//Edit Side
+router.get('/edit-middle-ad/:id', function(req, res){
+  PhoneMainMiddle.findById(req.params.id,(err,side)=>{
+    res.render('pages/settings/edit-middle-ad',{
+      side: side,
+    });
+  });
+});
+
+//Edit Middle
+router.post('/edit-middle-ad/:id', function(req,res){
+  req.checkBody('link','Link is required').notEmpty();
+  req.checkBody('alt','Alt Text is required').notEmpty();
+
+  req.asyncValidationErrors().then(() => {
+        let sort = req.body.sort;
+        let link = req.body.link;
+        let alt = req.body.alt;
+
+        PhoneMainMiddle.updateMany({ _id:req.params.id },{
+          $set:{
+            sort: sort ,
+            link: link ,
+            alt:alt,
+           }
+        }, { multi: true }).exec();
+
+      req.flash('success','Middle Ad Edited');
+      res.redirect('/settings/');
+    }).catch((errors) => {
+
+        if(errors) {
+          for (var i = 0; i < errors.length; i++) {
+            var param = errors[i].param;
+            var msg = errors[i].msg;
+            req.flash('danger', errors[i].msg);
+          }
+          res.redirect('/settings/edit-middle-ad/'+req.params.id);
+          return;
+        };
+    });
+});
+
+//Delete Side
+router.get('/delete-middle-ad/:id',(req, res)=>{
+  PhoneMainMiddle.findById(req.params.id,(err,slider)=>{
+    var id= slider.id;
+    
+    var image = /[^/]*$/.exec(slider.image)[0];
+    var publicId = image.replace(/\..+$/, '');
+    cloudinary.v2.uploader.destroy(publicId, function(error, result){console.log(result, error)});
+  });
+  PhoneMainMiddle.remove({ _id:req.params.id }, function (err) {
     console.log(err);
   });
   res.redirect('/settings');
