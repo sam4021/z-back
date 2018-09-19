@@ -1002,6 +1002,27 @@ router.post('/edit-entity/:id', function(req,res){
 
 //Add Brand Post Route
 router.post('/add-brand', function(req,res){
+  cloudinary.uploader.upload_stream((cloud_img) => {     
+    let brand= new Brand();
+    brand.title = req.body.title;
+    brand.url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
+    brand.logo = cloud_img.secure_url;
+    brand.description = req.body.description;
+
+    brand.save(function(err){
+      if(err){
+        req.flash('danger','Brand not added');
+        console.log(err);
+        return;
+      } else{
+        req.flash('success','Brand added');
+        res.redirect('/settings');
+      }
+    });
+}
+
+)
+.end(req.files.image.data);
   req.checkBody('title','Title is required').notEmpty();
 
   //Get Errors

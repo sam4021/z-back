@@ -17,6 +17,10 @@ const BrandSchema = mongoose.Schema({
     type: String,
     default:''
   },
+  front:{
+    type: Number,
+    default:0
+  },
   description:{
     type: String,
     default:''
