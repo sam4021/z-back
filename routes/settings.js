@@ -1,9 +1,34 @@
 const express = require('express');
+const global = require('../config/global');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const slugify = require('slugify');
 const { check, validationResult } = require('express-validator/check');
 const { matchedData, sanitize } = require('express-validator/filter');
+var multer = require('multer');
+var storage = multer.diskStorage({
+  filename: function(req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+var imageFilter = function (req, file, cb) {
+    // accept image files only
+    if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/i)) {
+        return cb(new Error('Only image files are allowed!'), false);
+    }
+    cb(null, true);
+};
+var upload = multer({ storage: storage, fileFilter: imageFilter})
+var cloudinary = require('../config/cloudinary.js').cloudinary;
+// const cloudinary = require('cloudinary');
+
+// cloudinary.config({ 
+//   cloud_name: global.CLOUD_NAME, 
+//   api_key: global.CLOUDINARY_API_KEY, 
+//   api_secret: global.CLOUDINARY_API_SECRET 
+// });
+
+
 
 let Attributes = require('../models/product_attributes');
 let Entities = require('../models/product_entities');
@@ -289,41 +314,71 @@ router.get('/add-slider', function(req, res){
 });
 
 //Add Main Slider
-router.post('/add-slider', function(req,res){
-  req.checkBody('link','Link is required').notEmpty();
-  req.checkBody('image','Image is required').notEmpty();
-  req.checkBody('alt','Alt Text is required').notEmpty();
+// router.post('/add-slider', function(req,res){
+//   req.checkBody('link','Link is required').notEmpty();
+//   req.checkBody('image','Image is required').notEmpty();
+//   req.checkBody('alt','Alt Text is required').notEmpty();
 
-  req.asyncValidationErrors().then(() => {
-        let slider= new PhoneMainSlider();
-        slider.link = req.body.link;
-        slider.image = req.body.image;
-        slider.sort = req.body.sort;
-        slider.alt = req.body.alt;
-        slider.save(function(err){
-          if(err){
-            req.flash('danger','Slider not added');
-            console.log(err);
-            return;
-          }
-        });
+//   req.asyncValidationErrors().then(() => {
+//         let slider= new PhoneMainSlider();
+//         slider.link = req.body.link;
+//         slider.image = req.body.image;
+//         slider.sort = req.body.sort;
+//         slider.alt = req.body.alt;
+//         slider.save(function(err){
+//           if(err){
+//             req.flash('danger','Slider not added');
+//             console.log(err);
+//             return;
+//           }
+//         });
 
-      req.flash('success','Slider added');
-      res.redirect('/settings/');
-      console.log(cat);
-      console.log(link);
-    }).catch((errors) => {
+//       req.flash('success','Slider added');
+//       res.redirect('/settings/');
+//       console.log(cat);
+//       console.log(link);
+//     }).catch((errors) => {
 
-        if(errors) {
-          for (var i = 0; i < errors.length; i++) {
-            var param = errors[i].param;
-            var msg = errors[i].msg;
-            req.flash('danger', errors[i].msg);
-          }
-          res.redirect('/settings/add-slider');
-          return;
-        };
-    });
+//         if(errors) {
+//           for (var i = 0; i < errors.length; i++) {
+//             var param = errors[i].param;
+//             var msg = errors[i].msg;
+//             req.flash('danger', errors[i].msg);
+//           }
+//           res.redirect('/settings/add-slider');
+//           return;
+//         };
+//     });
+// });
+
+router.post("/add-slider", function(req, res) {  
+  //router.post("/add-slider", upload.single('image'), function(req, res) {  
+    var fileGettingUploaded = req.files.image.path;
+    console.log(req.body, req.files, req.protocol);
+   cloudinary.v2.uploader.upload(fileGettingUploaded, function(err, result) {
+    if(err) {
+      // req.flash('error', err.message);
+      // return res.redirect('back');
+    }
+    // console.log(req.files);
+    
+    // add cloudinary url for the image to the campground object under image property
+    //req.body.campground.image = result.secure_url;
+    // add image's public_id to campground object
+    //req.body.campground.imageId = result.public_id;
+    // add author to campground
+    // req.body.campground.author = {
+    //   id: req.user._id,
+    //   username: req.user.username
+    // }
+    // Campground.create(req.body.campground, function(err, campground) {
+    //   if (err) {
+    //     req.flash('error', err.message);
+    //     return res.redirect('back');
+    //   }
+    //   res.redirect('/campgrounds/' + campground.id);
+    // });
+  });
 });
 
 //Edit Main Category

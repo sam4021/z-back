@@ -13,7 +13,8 @@ const session = require('express-session');
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const fileUpload = require('express-fileupload');
-
+require('dotenv').config()
+const busboy = require('connect-busboy');
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.database, {useMongoClient: true,});
@@ -56,6 +57,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }))
 // parse application/json
 app.use(bodyParser.json());
+
+app.use(busboy());
 
 //Express Messages Middleware
 app.use(require('connect-flash')());
@@ -107,10 +110,10 @@ app.use('/user',user);
 const api = require('./routes/api2');
 app.use('/api',api);
 //Authenticate Globally
-app.use(function(req, res, next){
-  if(req.isAuthenticated()) next();
-  else res.redirect('/login');
-});
+// app.use(function(req, res, next){
+//   if(req.isAuthenticated()) next();
+//   else res.redirect('/login');
+// });
 
 
 const index = require('./routes/index');

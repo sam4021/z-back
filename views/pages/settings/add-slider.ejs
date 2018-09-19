@@ -8,13 +8,13 @@
 	</div>
 </div>
 <div class="page-content">
-  <form action="/settings/add-slider" method="post" autocomplete="off">
+  <form action="/settings/add-slider" method="post" autocomplete="off" enctype="multipart/form-data">
     <div class="row">
      <div class="col-md-6">
        <div class="form-group">
          <label class="control-label col-md-12 col-sm-12 col-xs-12">Image</label>
          <div class="col-md-12 col-sm-12 col-xs-12">
-           <input type="file" name="image" class="form-control">
+           <input type="file" name="image" class="form-control" accept="image/*" required>
          </div>
        </div>
 		 </div>
