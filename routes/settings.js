@@ -189,7 +189,7 @@ router.post('/edit-main-shipping/:id', function(req,res){
 router.get('/add-main-category', function(req, res){
   Category.find({}, (err, category) =>{
     Products.find({is_web_active:1},(err,products)=>{
-        res.render('pages/settings/add-main-category',{
+        res.render('pages/settings/main-category/add-main-category',{
           category: category,
           products: products
       });
@@ -199,53 +199,53 @@ router.get('/add-main-category', function(req, res){
 
 //Add Main Category
 router.post('/add-main-category', function(req,res){
-  req.checkBody('product','Product is required').notEmpty();
-  req.checkBody('main_image','Main Category Image is required').notEmpty();
-  req.checkBody('link_image','Main Category Link is required').notEmpty();
-  req.checkBody('alt_image','Main Category Text is required').notEmpty();
+  // req.checkBody('product','Product is required').notEmpty();
+  // req.checkBody('main_image','Main Category Image is required').notEmpty();
+  // req.checkBody('link_image','Main Category Link is required').notEmpty();
+  // req.checkBody('alt_image','Main Category Text is required').notEmpty();
 
-  req.asyncValidationErrors().then(() => {
+  // req.asyncValidationErrors().then(() => {
+    cloudinary.uploader.upload_stream((cloud_img) => {
         let cat= new PhoneMainCategory();
         cat.category = req.body.category;
-        cat.image.img = req.body.main_image;
+        cat.image.img = cloud_img.secure_url;
         cat.image.link = req.body.link_image;
         cat.image.alt = req.body.alt_image;
-        cat.bottom_image.img = req.body.bottom_image;
-        cat.bottom_image.link = req.body.bottom_link_image;
-        cat.bottom_image.alt = req.body.bottom_alt_image;
+        // cat.bottom_image.img = req.body.bottom_image;
+        // cat.bottom_image.link = req.body.bottom_link_image;
+        // cat.bottom_image.alt = req.body.bottom_alt_image;
         cat.products = req.body.product;
         cat.save(function(err){
           if(err){
             req.flash('danger','Main Category not added');
             console.log(err);
             return;
+          } else{
+            req.flash('success','Main Category added');
+            res.redirect('/settings/');
           }
         });
+    }).end(req.files.main_image.data);
+    // }).catch((errors) => {
 
-      req.flash('success','Main Category added');
-      res.redirect('/settings/');
-      console.log(cat);
-      console.log(link);
-    }).catch((errors) => {
-
-        if(errors) {
-          for (var i = 0; i < errors.length; i++) {
-            var param = errors[i].param;
-            var msg = errors[i].msg;
-            req.flash('danger', errors[i].msg);
-          }
-          res.redirect('/settings/add-main-category');
-          return;
-        };
-    });
+    //     if(errors) {
+    //       for (var i = 0; i < errors.length; i++) {
+    //         var param = errors[i].param;
+    //         var msg = errors[i].msg;
+    //         req.flash('danger', errors[i].msg);
+    //       }
+    //       res.redirect('/settings/add-main-category');
+    //       return;
+    //     };
+    // });
 });
 
 //Edit Main Category
-router.get('/edit-main-category/:id', function(req, res){
+router.get('/edit-main-category-txt/:id', function(req, res){
   PhoneMainCategory.findById(req.params.id,(err,pcategory)=>{
     Category.find({}, (err, category) =>{
       Products.find({},(err,products)=>{
-          res.render('pages/settings/edit-main-category',{
+          res.render('pages/settings/main-category/edit-main-category-txt',{
             category: category,
             products: products,
             pcategory:pcategory
@@ -255,47 +255,122 @@ router.get('/edit-main-category/:id', function(req, res){
   });
 });
 
-//Edit Main Category
-router.post('/edit-main-category/:id', function(req,res){
-  req.checkBody('product','Product is required').notEmpty();
-  req.checkBody('main_image','Main Category Image is required').notEmpty();
-  req.checkBody('link_image','Main Category Link is required').notEmpty();
-  req.checkBody('alt_image','Main Category Text is required').notEmpty();
+//Edit Main Category img
+router.get('/edit-main-category-img/:id', function(req, res){
+  PhoneMainCategory.findById(req.params.id,(err,pcategory)=>{
+      res.render('pages/settings/main-category/edit-main-category-img',{
+        pcategory:pcategory
+    });
+});
+});
 
-  req.asyncValidationErrors().then(() => {
-        let category = req.body.category;
-        let img = req.body.main_image;
+//Edit Main Category
+router.post('/edit-main-category-txt/:id', function(req,res){
+      let category = req.body.category;
         let link = req.body.link_image;
         let alt = req.body.alt_image;
-        let Bimg = req.body.bottom_image;
-        let Blink = req.body.bottom_link_image;
-        let Balt = req.body.bottom_alt_image;
         let products = req.body.product;
 
         PhoneMainCategory.updateMany({ _id:req.params.id },{
           $set:{
             category: category ,
             products:products,
-            image:{img:img,link:link,alt:alt},
-            bottom_image:{img:Bimg,link:Blink,alt:Balt},
+            image:{link:link,alt:alt}
            }
         }, { multi: true }).exec();
 
       req.flash('success','Main Category Edited');
       res.redirect('/settings/');
-    }).catch((errors) => {
-
-        if(errors) {
-          for (var i = 0; i < errors.length; i++) {
-            var param = errors[i].param;
-            var msg = errors[i].msg;
-            req.flash('danger', errors[i].msg);
-          }
-          res.redirect('/settings/edit-main-category/'+req.params.id);
-          return;
-        };
-    });
 });
+
+router.post('/edit-main-category-img/:id', function(req,res){
+      cloudinary.uploader.upload_stream((cloud_img) => {
+        let category = req.body.category;
+        let img =  cloud_img.secure_url;
+        let link = req.body.link_image;
+        let alt = req.body.alt_image;
+        let products = req.body.product;
+
+        PhoneMainCategory.updateMany({ _id:req.params.id },{
+          $set:{
+            category: category ,
+            products:products,
+            image:{img:img,link:link,alt:alt}
+           }
+        }, { multi: true }).exec();
+        if(req.body.main_img){
+          var image = /[^/]*$/.exec(req.body.main_img)[0];
+          var publicId = image.replace(/\..+$/, '');
+          cloudinary.v2.uploader.destroy(publicId, function(error, result){console.log(result, error)});
+        }
+
+      req.flash('success','Main Category Edited');
+      res.redirect('/settings/');
+    }).end(req.files.main_image.data);
+});
+
+//Edit Main Category
+router.get('/edit-main-category-strip-img/:id', function(req, res){
+  PhoneMainCategory.findById(req.params.id,(err,pcategory)=>{
+      res.render('pages/settings/main-category/bottom-strip-img',{
+        pcategory:pcategory
+    });
+  });
+});
+
+router.get('/edit-main-category-strip-txt/:id', function(req, res){
+  PhoneMainCategory.findById(req.params.id,(err,pcategory)=>{
+      res.render('pages/settings/main-category/bottom-strip-txt',{
+        pcategory:pcategory
+    });
+  });
+});
+
+router.post('/edit-main-category-strip-img/:id',(req,res)=>{
+    cloudinary.uploader.upload_stream((cloud_img) => {
+      let Bimg = cloud_img.secure_url;
+      let Blink = req.body.bottom_link_image;
+      let Balt = req.body.bottom_alt_image;     
+      PhoneMainCategory.updateMany({ _id:req.params.id },{
+        $set:{
+          bottom_image:{img:Bimg,link:Blink,alt:Balt},
+         }
+      }, { multi: true }).exec(function (err, middle) {
+        if (err) {
+          console.log(err);
+          return ;
+        } else{
+          if(req.body.bottom_img){
+            var image = /[^/]*$/.exec(req.body.bottom_img)[0];
+            var publicId = image.replace(/\..+$/, '');
+            cloudinary.v2.uploader.destroy(publicId, function(error, result){console.log(result, error)});
+          }
+          req.flash('success','Category Strip added');
+          res.redirect('/settings/');
+        }
+  
+      });
+    
+    }).end(req.files.bottom_image.data);  
+})
+router.post('/edit-main-category-strip-txt/:id',(req,res)=>{
+    let Blink = req.body.bottom_link_image;
+    let Balt = req.body.bottom_alt_image;     
+    PhoneMainCategory.updateMany({ _id:req.params.id },{
+      $set:{
+        bottom_image:{link:Blink,alt:Balt},
+       }
+    }, { multi: true }).exec(function (err, middle) {
+      if (err) {
+        console.log(err);
+        return ;
+      } else{
+        req.flash('success','Category Strip Edited');
+        res.redirect('/settings/');
+      }
+
+    });
+})
 
 //Delete Main Category Product
 router.get('/delete-main-category-prod/:id/:prod', function(req, res){
@@ -1002,7 +1077,7 @@ router.post('/edit-entity/:id', function(req,res){
 
 //Add Brand Post Route
 router.post('/add-brand', function(req,res){
-  cloudinary.uploader.upload_stream((cloud_img) => {     
+  cloudinary.uploader.upload_stream((cloud_img) => {       
     let brand= new Brand();
     brand.title = req.body.title;
     brand.url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});

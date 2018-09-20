@@ -357,11 +357,17 @@
 											%>
 										</td>
 										<td>
-											<img src="https://www.static.phonestablets.co.ke/img<%= m.image.img %>" alt="<%= m.image.alt %>" width="100px">
-											<br>
-											<%= m.image.link %>
+											
+											<%= m.image.alt %>
 										</td>
-										<td><a href="/settings/edit-main-category/<%=m.id%>">Edit</a>
+										<td>
+												<div class="btn-group" role="group" aria-label="Basic example">
+													<a href="/settings/edit-main-category-txt/<%=m.id%>" class="btn btn-primary">Edit Main</a>
+													<a href="/settings/edit-main-category-img/<%=m.id%>" class="btn btn-primary">Edit Main Image</a>
+													<a href="/settings/edit-main-category-strip-img/<%=m.id%>" class="btn btn-success">Edit Strip Image</a>
+													<a href="/settings/edit-main-category-strip-txt/<%=m.id%>" class="btn btn-warning">Edit Strip Text</a>
+													<!-- <a href="/settings/edit-main-category/<%=m.id%>" class="btn btn-primary">Edit</a> -->
+												</div>
 											<!-- <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
 												<button type="button" class="btn btn-info" onclick="edit_location('<%= m.id %>')">Edit</button>
 											</div> -->

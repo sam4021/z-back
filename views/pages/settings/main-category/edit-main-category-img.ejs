@@ -1,0 +1,36 @@
+<% include ../../../partials/header %>
+<div class="page-header">
+	<div class="page-title">
+    Edit Main Category
+	</div>
+	<div class="page-actions">
+
+	</div>
+</div>
+<div class="page-content">
+  <form action="/settings/edit-main-category-img/<%= pcategory.id %>" method="post" autocomplete="off" enctype="multipart/form-data">
+    <div class="row">
+     <div class="col-md-6">
+       <div class="form-group">
+         <label class="control-label col-md-12 col-sm-12 col-xs-12">Main Image</label>
+         <div class="col-md-12 col-sm-12 col-xs-12">
+           <input type="file" name="main_image" class="form-control">
+					 <% if(pcategory.image.img !=''){ %>
+            <img src="<%= pcategory.image.img %>" width="100px">
+            <input type="hidden" name="main_img" value="<%= pcategory.image.img %>">
+					 <% } %>
+         </div>
+       </div>
+     </div>
+     <div class="col-md-6">
+      
+     </div>
+		 <div class="col-md-12">
+			 <div class="form-actions text-left">
+ 				<button type="submit" class="btn btn-primary">Submit</button>
+ 			</div>
+		 </div>
+    </div>
+ </form>
+</div>
+<% include ../../../partials/footer %>

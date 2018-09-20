@@ -1,0 +1,41 @@
+<% include ../../../partials/header %>
+<div class="page-header">
+	<div class="page-title">
+    Edit Main Category Strip
+	</div>
+	<div class="page-actions">
+
+	</div>
+</div>
+<div class="page-content">
+  <form action="/settings/edit-main-category-strip-txt/<%= pcategory.id %>" method="post" autocomplete="off" enctype="multipart/form-data">
+    <h4>Bottom Strip</h4>
+    <hr>
+    <div class="row">
+     <div class="col-md-6">
+	    
+       <div class="form-group">
+         <label class="control-label col-md-12 col-sm-12 col-xs-12">Bottom Image Link</label>
+         <div class="col-md-12 col-sm-12 col-xs-12">
+           <input type="text" name="bottom_link_image" class="form-control" value="<%= pcategory.bottom_image.link %>">
+         </div>
+       </div>
+     </div>
+     <div class="col-md-6">
+         <div class="form-group">
+           <label class="control-label col-md-12 col-sm-12 col-xs-12">Bottom Image Title</label>
+           <div class="col-md-12 col-sm-12 col-xs-12">
+             <input type="text" name="bottom_alt_image" class="form-control" value="<%= pcategory.bottom_image.alt %>">
+           </div>
+         </div>
+       </div>
+
+		 <div class="col-md-12">
+			 <div class="form-actions text-right">
+ 				<button type="submit" class="btn btn-primary">Submit</button>
+ 			</div>
+		 </div>
+    </div>
+ </form>
+</div>
+<% include ../../../partials/footer %>
