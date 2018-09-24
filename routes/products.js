@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const slugify = require('slugify');
 const request = require('request');
 const fs = require('fs');
+var cloudinary = require('../config/cloudinary.js').cloudinary;
 
 let Products = require('../models/products');
 let Category = require('../models/product_category');
@@ -85,14 +86,19 @@ router.post('/add', (req, res) => {
     products.descriptions.box_content = req.body.box_content;
     products.descriptions.short = req.body. short;
     products.descriptions.full = req.body.full;
-    var img = req.body.img;
-    var sort = req.body.sort;
+    
+    // var img = req.files.img;
+    // var sort = req.body.sort;
 
-    var image=[];
-    for (var i = 0; i < img.length; i++) {
-      image[i]=[img[i],sort[i]];
-    }
-    products.images = image;
+    // var image=[];
+    // for (var i = 0; i < img.length; i++) {
+    //   //image[i]=[img[i],sort[i]];
+    //   cloudinary.uploader.upload_stream((cloud_img) => {
+    //     image[i]=[cloud_img.secure_url,sort[i]];
+
+    // }).end(req.files.img[i].data);
+    // }
+    // products.images = image;
 
       products.save(function(err, new_product){
         let prodId = new_product._id;
@@ -250,19 +256,30 @@ router.post('/add-image/:id', (req, res) => {
 //     console.log( 'Upload successful!' );
 // });
 
-  Products.findById(req.params.id,(err,product)=>{console.log(req.body);
+  Products.findById(req.params.id,(err,product)=>{
     let image = product.images;
-
-    var img = req.body.img;
-    var sort = req.body.sort;
-
-    var imag=[];
-    for (var i = 0; i < img.length; i++) {
-      image.push([img[i],sort[i]]);
-    }
-
-    Products.updateMany({ _id:req.params.id },{ $set:{ images: image }}, { multi: true }).exec();
-         res.redirect('/products/view/'+req.params.id);
+    cloudinary.uploader.upload_stream((cloud_img) => {
+      image.push([cloud_img.secure_url,req.body.sort]);  
+      Products.updateMany({ _id:req.params.id },{
+        $set:{
+          images: image
+         }
+      }, { multi: true }).exec(function (err, middle) {
+        if (err) {
+          console.log(err);
+          return ;
+        } else{
+          // if(req.body.bottom_img){
+          //   var image = /[^/]*$/.exec(req.body.bottom_img)[0];
+          //   var publicId = image.replace(/\..+$/, '');
+          //   cloudinary.v2.uploader.destroy(publicId, function(error, result){console.log(result, error)});
+          // }
+          req.flash('success','Product Image added');
+          res.redirect('/products/view/'+req.params.id);
+        }
+      });
+    }).end(req.files.image.data);  
+    //Products.updateMany({ _id:req.params.id },{ $set:{ images: image }}, { multi: true }).exec();
   });
 });
 
@@ -272,10 +289,12 @@ router.post('/delete-image/:id', (req, res) => {
     let oldImage = product.images;
 
     let image = req.body.image;
-    console.log(image);
     var pos = oldImage.indexOf(image);
     oldImage.splice(pos, 1);
-    let newImage = product.images;
+
+    var img = /[^/]*$/.exec(image)[0];
+    var publicId = img.replace(/\..+$/, '');
+    cloudinary.v2.uploader.destroy(publicId, function(error, result){console.log(result, error)});
 
     Products.updateMany({ _id:req.params.id },{ $set:{ images: oldImage }}, { multi: true }).exec();
     res.redirect('/products/view/'+req.params.id);

@@ -678,7 +678,7 @@ function edit_location(id) {
 var rowCount = 1;
 function addImgRows(frm) {
     rowCount++;
-    var recRow = '<tr id="imgCount' + rowCount + '" class="row"><td style="padding: 2px 5px;"><input name="img[]" id="id' + rowCount + '" type="text" class="form-control" /></td><td style="padding: 2px 5px;"><input name="sort[]" id="" type="text" class="form-control" value="0" /></td><td style="padding: 2px 5px;"><a  class="input-field btn-floating red" href="javascript:void(0);" onclick="removeImgRow(' + rowCount + ');" style="padding: 0px;"><i class="material-icons dp48" style="padding: 0px;margin: 0px;">delete</i></a></td></tr>';
+    var recRow = '<tr id="imgCount' + rowCount + '" class="row"><td style="padding: 2px 5px;"><input name="img[]" id="id' + rowCount + '" type="file" class="form-control" /></td><td style="padding: 2px 5px;"><input name="sort[]" id="" type="text" class="form-control" value="0" /></td><td style="padding: 2px 5px;"><a  class="input-field btn-floating red" href="javascript:void(0);" onclick="removeImgRow(' + rowCount + ');" style="padding: 0px;"><i class="material-icons dp48" style="padding: 0px;margin: 0px;">delete</i></a></td></tr>';
     jQuery('#imgRows').append(recRow);
 }
 function removeImgRow(removeNum) {

@@ -395,7 +395,7 @@ if(i != -1) {
 
 //Add Main Slider
 router.get('/add-slider', function(req, res){
-  res.render('pages/settings/add-slider');
+  res.render('pages/settings/slider/add-slider');
 });
 
 //Add Main Slider
@@ -464,7 +464,7 @@ router.post("/add-slider", function(req, res) {
 //Edit Main Category
 router.get('/edit-slider/:id', function(req, res){
   PhoneMainSlider.findById(req.params.id,(err,slider)=>{
-    res.render('pages/settings/edit-slider',{
+    res.render('pages/settings/slider/edit-slider',{
       slider: slider,
     });
   });
@@ -498,7 +498,7 @@ router.post('/edit-slider/:id', function(req,res){
             var msg = errors[i].msg;
             req.flash('danger', errors[i].msg);
           }
-          res.redirect('/settings/edit-slider/'+req.params.id);
+          res.redirect('/settings/slider/edit-slider/'+req.params.id);
           return;
         };
     });
@@ -1094,43 +1094,40 @@ router.post('/add-brand', function(req,res){
         res.redirect('/settings');
       }
     });
-}
+}).end(req.files.image.data);
+  // req.checkBody('title','Title is required').notEmpty();
 
-)
-.end(req.files.image.data);
-  req.checkBody('title','Title is required').notEmpty();
+  // //Get Errors
+  // let errors = req.validationErrors();
 
-  //Get Errors
-  let errors = req.validationErrors();
+  // if (errors) {
+  //   res.render('pages/settings',{
+  //     errors: errors
+  //   });
+  // } else {
+  //   let brand= new Brand();
+  //   brand.title = req.body.title;
+  //   brand.url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
+  //   brand.logo = req.body.logo;
+  //   brand.description = req.body.description;
 
-  if (errors) {
-    res.render('pages/settings',{
-      errors: errors
-    });
-  } else {
-    let brand= new Brand();
-    brand.title = req.body.title;
-    brand.url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
-    brand.logo = req.body.logo;
-    brand.description = req.body.description;
-
-    brand.save(function(err){
-      if(err){
-        req.flash('danger','Brand not added');
-        console.log(err);
-        return;
-      } else{
-        req.flash('success','Brand added');
-        res.redirect('/settings');
-      }
-    });
-  }
+  //   brand.save(function(err){
+  //     if(err){
+  //       req.flash('danger','Brand not added');
+  //       console.log(err);
+  //       return;
+  //     } else{
+  //       req.flash('success','Brand added');
+  //       res.redirect('/settings');
+  //     }
+  //   });
+  // }
 });
 
 //Load Edit Brand
 router.get('/edit-brand/:id', function(req, res){
   Brand.findById(req.params.id,function(err, brand){
-    res.render('pages/settings/edit-brand',{
+    res.render('pages/settings/brand/edit-brand',{
       brand: brand
     });
   });
@@ -1141,7 +1138,7 @@ router.post('/edit-brand/:id', function(req,res){
   let brand= {};
   brand.title = req.body.title;
   brand.url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
-  brand.logo = req.body.logo;
+  //brand.logo = req.body.logo;
   brand.description = req.body.description;
 
   let query = {_id:req.params.id}

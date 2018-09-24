@@ -8,7 +8,7 @@
 	</div>
 </div>
 <div class="page-content">
-  <form action="/products/add" method="post" role="form" class="row" autocomplete="off">
+  <form action="/products/add" method="post" role="form" class="row" autocomplete="off" enctype="multipart/form-data">
 		<ul class="nav nav-tabs col-md-12 col-sm-12 col-xs-12" id="myTab" role="tablist">
 			<li class="nav-item">
 				<a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="true">Info</a>
@@ -19,9 +19,9 @@
 			<li class="nav-item">
 				<a class="nav-link" id="category-tab" data-toggle="tab" href="#category" role="tab" aria-controls="category" aria-selected="false">Category</a>
 			</li>
-			<li class="nav-item">
+			<!-- <li class="nav-item">
 				<a class="nav-link" id="images-tab" data-toggle="tab" href="#images" role="tab" aria-controls="images" aria-selected="false">Images</a>
-			</li>
+			</li> -->
 			<!-- <li class="nav-item">
 				<a class="nav-link" id="entity-tab" data-toggle="tab" href="#entity" role="tab" aria-controls="entity" aria-selected="false">Entity</a>
 			</li> -->
@@ -147,10 +147,18 @@
 	            </ul>
 	          </li>
 	          <% } %>
-	        </ul>
+					</ul>
+					<hr>
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="form-group">
+							<div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+								<button type="submit" class="btn btn-success">Submit</button>
+							</div>
+						</div>
+					</div>
 				</div>
 		  </div>
-		  <div class="tab-pane" id="images" role="tabpanel" aria-labelledby="images-tab">
+		  <!-- <div class="tab-pane" id="images" role="tabpanel" aria-labelledby="images-tab">
 				<div class="container">
 					<div class="row">
 				      <div class="col-md-7 col-sm-7 col-xs-12" for="cost">Images</div>
@@ -181,8 +189,7 @@
 								</div>
 					</div>
 				</div>
-
-		  </div>
+		  </div> -->
 			<!-- <div class="tab-pane" id="entity" role="tabpanel" aria-labelledby="entity-tab">
 				<div class="row">
 					<div id="attrib_fields" class="col-md-12 col-sm-12 col-xs-12 row"></div>

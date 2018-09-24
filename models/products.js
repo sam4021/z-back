@@ -48,7 +48,7 @@ const ProductsSchema = mongoose.Schema({
   },
   images:{
     type:Array,
-    default:''
+    default:[]
   },
   seo:{
     keywords:{type:String, default:''},
