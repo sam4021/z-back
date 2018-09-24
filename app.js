@@ -111,7 +111,7 @@ const api = require('./routes/api2');
 app.use('/api',api);
 //Authenticate Globally
 app.use(function(req, res, next){
-  if(req.isAuthenticated()) next();
+  if(req.isAuthenticated()) next(); 
   else res.redirect('/login');
 });
 

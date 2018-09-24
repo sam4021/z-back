@@ -285,17 +285,19 @@ router.post('/edit-main-category-txt/:id', function(req,res){
 
 router.post('/edit-main-category-img/:id', function(req,res){
       cloudinary.uploader.upload_stream((cloud_img) => {
-        let category = req.body.category;
+        //let category = req.body.category;
         let img =  cloud_img.secure_url;
-        let link = req.body.link_image;
-        let alt = req.body.alt_image;
-        let products = req.body.product;
+        // let link = req.body.link_image;
+        // let alt = req.body.alt_image;
+        // let products = req.body.product;
 
         PhoneMainCategory.updateMany({ _id:req.params.id },{
           $set:{
             category: category ,
             products:products,
-            image:{img:img,link:link,alt:alt}
+            image:{img:img
+            //  ,link:link,alt:alt
+            }
            }
         }, { multi: true }).exec();
         if(req.body.main_img){
@@ -333,7 +335,7 @@ router.post('/edit-main-category-strip-img/:id',(req,res)=>{
       let Balt = req.body.bottom_alt_image;     
       PhoneMainCategory.updateMany({ _id:req.params.id },{
         $set:{
-          bottom_image:{img:Bimg,link:Blink,alt:Balt},
+          bottom_image:{img:Bimg},
          }
       }, { multi: true }).exec(function (err, middle) {
         if (err) {
