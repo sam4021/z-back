@@ -15,6 +15,7 @@ const jwt = require('jsonwebtoken');
 const fileUpload = require('express-fileupload');
 require('dotenv').config()
 const busboy = require('connect-busboy');
+const MongoStore = require('connect-mongo')(session);
 
 mongoose.Promise = global.Promise;
 mongoose.connect(config.database, {useMongoClient: true,});
@@ -46,6 +47,7 @@ app.use(compression());
 app.use(session({
   secret: 'keyboard cat',
   resave: true,
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
   saveUninitialized: true
 }));
 
