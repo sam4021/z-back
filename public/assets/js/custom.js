@@ -808,7 +808,7 @@ function addProdC(x){
 	rowCount++;
   var product =$('#product_'+x).val();
   var price =$('#price_'+x).val();
-	var recRow = '<tr id="catCount' + x + '"><td><input name="product[]" type="hidden" value="'+ x +'" />'+ product +'</td><td>'+ price +'</td><td><button type="button" class="btn btn-danger btn-app-sm btn-circle" onclick="removeProdC(\'' + x + '\');"><i class="fa fa-times"></i></button></td></tr>';
+	var recRow = '<tr id="catCount' + x + '"><td><input name="product" type="hidden" value="'+ x +'" />'+ product +'</td><td>'+ price +'</td><td><button type="button" class="btn btn-danger btn-app-sm btn-circle" onclick="removeProdC(\'' + x + '\');"><i class="fa fa-times"></i></button></td></tr>';
 	jQuery('#Prod-Cat').append(recRow);
 }
 function removeProdC(x) {

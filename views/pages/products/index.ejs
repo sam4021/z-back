@@ -26,8 +26,7 @@
                     <th scope="col">Price</th>
                     <th scope="col">Reseller Price</th>
                     <th scope="col">Special Price</th>
-                    <th scope="col">Store</th>
-                    <th scope="col">Web</th>
+                    <th scope="col">View</th>
                     <th scope="col" class="actions">Actions</th>
                   </tr>
                 </thead>
@@ -52,13 +51,6 @@
                           <span class="slider round"></span>
                         </label>
                         <input type="hidden" name="product-status-<%= product.id %>" value="<% if(product.is_active==0){ %> 1 <% } else{ %> 0 <% } %>">
-                      </td>
-                      <td>
-                        <label class="switch" onclick="makeVisible_2('<%= product.id %>')">
-                          <input type="checkbox" <% if(product.is_web_active==1){ %>checked <% } %>>
-                          <span class="slider round"></span>
-                        </label>
-                        <input type="hidden" name="product-status2-<%= product.id %>" value="<% if(product.is_web_active==0){ %> 1 <% } else{ %> 0 <% } %>">
                       </td>
                       <td class="actions">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">

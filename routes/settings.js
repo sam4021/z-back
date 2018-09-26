@@ -238,7 +238,7 @@ router.post('/add-main-category', function(req,res){
     //       return;
     //     };
     // });
-});
+});  
 
 //Edit Main Category
 router.get('/edit-main-category-txt/:id', function(req, res){
@@ -267,6 +267,7 @@ router.get('/edit-main-category-img/:id', function(req, res){
 //Edit Main Category
 router.post('/edit-main-category-txt/:id', function(req,res){
       let category = req.body.category;
+        let img = req.body.main_image;
         let link = req.body.link_image;
         let alt = req.body.alt_image;
         let products = req.body.product;
@@ -275,7 +276,7 @@ router.post('/edit-main-category-txt/:id', function(req,res){
           $set:{
             category: category ,
             products:products,
-            image:{link:link,alt:alt}
+            image:{img:img,link:link,alt:alt}
            }
         }, { multi: true }).exec();
 

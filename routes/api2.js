@@ -152,7 +152,7 @@ router.get('/product-related/:id', function(req, res, next){
   exec(function (err, product) {
     if(product){
     Products.
-    find({category:product.category,brand:product.brand,is_web_active: 1,deleted:0}).
+    find({category:product.category,brand:product.brand,is_active: 1,deleted:0}).
     select('price  images title special_price url title').
     where("url").
     ne(req.params.id).
@@ -181,9 +181,9 @@ router.get('/product-related/:id', function(req, res, next){
 //Get All Products
 router.get('/products',(req, res, next)=>{
   Products
-  .find({is_web_active: 1,deleted: 0})
-  .populate('brand','title url',Brand)
-  .populate('desc_entity.entity','title',Entities)
+  .find({is_active: 1,deleted: 0})
+  //.populate('brand','title url',Brand)
+  //.populate('desc_entity.entity','title',Entities)
   .exec((err, products)=>{
     let prodArr = [];
     if (err) {
@@ -200,7 +200,7 @@ router.get('/products',(req, res, next)=>{
 
 //Get All Products Offer
 router.get('/products-offer',(req, res, next)=>{
-  Products.find({is_web_active: 1,deleted: 0}).
+  Products.find({is_active: 1,deleted: 0}).
   where("special_price").
   ne(0).
     exec((err, products)=>{
@@ -219,7 +219,7 @@ router.get('/products-offer',(req, res, next)=>{
 
 //Get All Products Offer extra
 router.get('/products_offer_extra',(req, res, next)=>{
-  Products.find({is_web_active: 1,deleted: 0}).
+  Products.find({is_active: 1,deleted: 0}).
   select('title url price images special_price ').
   where("special_price").
   ne(0).
@@ -242,7 +242,7 @@ router.get('/products_offer_extra',(req, res, next)=>{
 router.get('/product-featured', function(req, res, next){
   PhoneProductsFeatured.
   find({}).
-  populate('product','title url price images special_price is_web_active deleted',Products).
+  populate('product','title url price images special_price is_active deleted',Products).
   limit(5).
   exec(function (err, featured) {
     if (err) console.log(err);
@@ -262,7 +262,7 @@ router.get('/product-featured', function(req, res, next){
 //Get latest Products
 router.get('/product-latest', function(req, res, next){
   Products.
-  find({is_web_active: 1,deleted: 0}).
+  find({is_active: 1,deleted: 0}).
   select('title url images special_price price stock').
   sort({_id: 'descending'}).
   limit(5).
@@ -390,7 +390,7 @@ router.get('/product-category/:id', function(req, res, next){
                   lastCatArr = cat3;
                 }
                 Products.
-                find({is_web_active: 1,deleted: 0}).
+                find({is_active: 1,deleted: 0}).
                 where('category').
                 in(lastCatArr).
                 sort({ price : 'ascending'}).
@@ -505,7 +505,7 @@ router.get('/product-category-brand/:id/:brand', function(req, res, next){
                   });
                 }
                 Products.
-                find({is_web_active: 1,deleted: 0, brand: req.params.brand}).
+                find({is_active: 1,deleted: 0, brand: req.params.brand}).
                 where('category').
                 in(cat3Arr).
                 sort({ price : 'ascending'}).
@@ -661,7 +661,7 @@ router.get('/home-category-mobile', function(req, res, next){
 
 //Get Home Offer
 router.get('/home-offer', function(req, res, next){
-  Products.find({is_web_active: 1,deleted: 0}).
+  Products.find({is_active: 1,deleted: 0}).
   select('title url price images special_price ').
   where("special_price").
   ne(0).
@@ -853,7 +853,7 @@ router.get('/brand/:id', function(req, res, next){console.log(req.params.id);
 router.get('/brand-entity/:id', function(req, res, next){
   // Category.findOne({url:req.params.id},(err,category)=>{
   //   Products.
-  //   find({category: category.id,is_web_active: 1}).
+  //   find({category: category.id,is_active: 1}).
   //   distinct('brand').
   //   exec((err, products)=>{
   //     Brand.
@@ -909,7 +909,7 @@ router.get('/brand-entity/:id', function(req, res, next){
                   });
                 }
                 Products.
-                find({is_web_active: 1,deleted: 0}).
+                find({is_active: 1,deleted: 0}).
                 where('category').
                 in(categoryArr).
                 distinct('brand').
@@ -961,7 +961,7 @@ router.post('/get-brands-entity', function(req, res, next){
 router.get('/category-entity/:id', function(req, res, next){
    Category.findOne({url:req.params.id},(err,category)=>{
      Products.
-     find({category: category.id,is_web_active: 1,deleted: 0}).
+     find({category: category.id,is_active: 1,deleted: 0}).
      exec(function (err, products) {
        if (err) console.log(err);
        let prodArr = [];
@@ -984,7 +984,7 @@ router.get('/products_search/:id',function(req, res,next){
   var reg=new RegExp(req.params.id, 'i');
   console.log(reg);
   Products.
-  find({title:reg,is_web_active:1,deleted: 0}).
+  find({title:reg,is_active:1,deleted: 0}).
   //select('price images special_price url title').
   exec(function (err, product) {
     if (err) console.log(err);
