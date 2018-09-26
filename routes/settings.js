@@ -61,7 +61,7 @@ router.get('/', function(req, res, next){
                     PhoneMainMiddle.find({},(err,middle_ad)=>{
                   PhoneMainCategory.find({},(err,mCategory)=>{
                     PhoneProductsFeatured.find({},(err,featured)=>{
-                      Products.find({is_web_active:1, deleted: 0},(err,products)=>{
+                      Products.find({is_active:1, deleted: 0},(err,products)=>{
                         Courier.find({},(err,courier)=>{
                           DeliveryLocation.find({},(err,location)=>{
                             PhoneMainShipping.find({},(err,shipping)=>{
