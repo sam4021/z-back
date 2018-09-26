@@ -188,7 +188,7 @@ router.post('/edit-main-shipping/:id', function(req,res){
 //Add Main Category
 router.get('/add-main-category', function(req, res){
   Category.find({}, (err, category) =>{
-    Products.find({is_web_active:1},(err,products)=>{
+    Products.find({is_active:1},(err,products)=>{
         res.render('pages/settings/main-category/add-main-category',{
           category: category,
           products: products
