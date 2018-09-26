@@ -182,8 +182,8 @@ router.get('/product-related/:id', function(req, res, next){
 router.get('/products',(req, res, next)=>{
   Products
   .find({is_active: 1,deleted: 0})
-  //.populate('brand','title url',Brand)
-  //.populate('desc_entity.entity','title',Entities)
+  .populate('brand','title url',Brand)
+  .populate('desc_entity.entity','title',Entities)
   .exec((err, products)=>{
     let prodArr = [];
     if (err) {
