@@ -1303,6 +1303,7 @@ router.post('/add-category', function(req,res){
     let cat= new Category();
     cat.title = req.body.title;
     cat.parent = req.body.parent;
+    cat.icon = req.body.icon;
     cat.url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
 
     cat.save(function(err){
@@ -1323,20 +1324,21 @@ router.post('/edit-category', function(req,res){
   let cat= {};
   let title = req.body.title;
   let url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
+  let icon = req.body.icon;
   let seo_title = req.body.seo_title;
   let keywords = req.body.keywords;
   let description = req.body.description;
   let img = req.body.img;
   let link = req.body.link;
   let footer_seo = req.body.footer_seo;
-console.log(req.body);
+
   Category.
   updateMany(
     { _id:req.body.id },
     { $set:
       { title: title , url:url,footer_seo:footer_seo,
         seo:{title:seo_title,keywords:keywords,description:description},
-        top_ad:{img:img,link:link}
+        icon:icon
        }
      },
       { multi: true }

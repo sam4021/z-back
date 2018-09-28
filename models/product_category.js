@@ -16,6 +16,10 @@ const CategorySchema = mongoose.Schema({
   },
   parent: {
     type: String,
+    default: ''
+  },
+  icon: {
+    type: String,
     default: 0
   },
   seo:{
