@@ -1116,3 +1116,12 @@ function client_data(id) {
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.send();
     }
+    function addvendor(id) {
+        rowCount++;
+        var vendor =$('#vendor_'+id).val();
+        var recRow = '  <tr id="venCount' + id + '"><td>'+ vendor +'<input name="vendor[]" type="hidden" value="'+ id +'" /></td><td><input name="cost[]" type="text" class="form-control" /></td><td><input name="feature[]" type="text" class="form-control" /></td><td><button type="button" class="btn btn-danger btn-app-sm btn-circle" onclick="removeVendor(\'' + id + '\');"><i class="fa fa-times"></i></button></td></tr>';
+        jQuery('#Prod-Vendor').append(recRow);
+      }
+      function removeVendor(removeNum) {
+          jQuery('#venCount' + removeNum).remove();
+      }
