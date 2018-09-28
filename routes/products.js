@@ -7,6 +7,8 @@ const fs = require('fs');
 var cloudinary = require('../config/cloudinary.js').cloudinary;
 
 let Products = require('../models/products');
+let Vendor = require('../models/vendor');
+let ProductsVendor = require('../models/products_vendor');
 let Category = require('../models/product_category');
 let Attributes = require('../models/product_attributes');
 let Entities = require('../models/product_entities');
@@ -172,6 +174,10 @@ router.get('/view/:id', function(req, res, next){
   Products.
   findById(req.params.id).
   exec(function(err, products){
+    ProductsVendor.
+      find({products:req.params.id}).
+      populate('vendor','name',Vendor).
+      exec((err,pvendor)=>{
         Brand.findById(products.brand,(err,brand)=>{
           Category.findById(products.category,(err,category)=>{
             Category.find({},(err,allcategory)=>{
@@ -180,6 +186,7 @@ router.get('/view/:id', function(req, res, next){
                     Products.find({}, function(err, allprod){
                         res.render('pages/products/view',{
                           products: products,
+                          pvendor:pvendor,
                           brand: brand,
                           category: category,
                           allcategory: allcategory,
@@ -193,7 +200,113 @@ router.get('/view/:id', function(req, res, next){
           });
         });
       });
+    });
   });
+});
+
+//Add Products Vendor
+router.get('/add-vendor/:id', function(req, res, next){
+  Products.findById(req.params.id, function(err, products){
+    Vendor.find({}, function(err, vendor){
+      ProductsVendor.find({products:req.params.id},(err,pvendor)=>{
+        res.render('pages/products/add-vendor',{
+          products: products,
+          vendor: vendor,
+          pvendor:pvendor
+        });
+      });
+    });
+  });
+});
+
+//Add Products Vendor
+router.post('/add-vendor/:id', function(req, res, next){
+  req.checkBody('vendor','Vendor is required').notEmpty();
+
+  req.asyncValidationErrors().then(() => {
+    const vendor = req.body.vendor;
+    const cost = req.body.cost;
+    const feature = req.body.feature;
+
+    for (var i = 0; i < vendor.length; i++) {
+      let ven= new ProductsVendor();
+      ven.products = req.params.id
+      ven.vendor = vendor[i];
+      ven.cost = cost[i];
+      ven.feature = feature[i];
+       ven.save(function(err){
+         if(err){
+           console.log(err);
+         }
+       });
+    }
+
+         req.flash('success','Product Vendor added');
+         res.redirect('/products/view/'+req.params.id);
+  }).catch((errors) => {
+
+      if(errors) {console.log(errors);
+        for (var i = 0; i < errors.length; i++) {
+          var param = errors[i].param;
+          var msg = errors[i].msg;
+          req.flash('danger', errors[i].msg);
+        }
+        res.redirect('/products/add-vendor/'+ req.params.id);
+        return;
+      };
+  });
+});
+
+//Delete Products Vendor
+router.get('/delete-vendor/:id/:product', function(req, res, next){
+  ProductsVendor.remove({ _id:req.params.id }, function (err) {
+    res.redirect('/products/view/'+req.params.product);
+  });
+});
+
+//Edit Products Vendor
+router.get('/edit-vendor/:id', function(req, res, next){
+  Products.findById(req.params.id,(err,products)=>{
+    ProductsVendor.find({}, function(err, pvendor){
+      Vendor.find({}, function(err, vendor){
+        res.render('pages/products/add-vendor',{
+          products: products,
+          vendor: vendor,
+          pvendor:pvendor
+        });
+      });
+    });
+  });
+});
+
+//Assign Vendor
+router.post('/assign_vendor', (req, res) => {
+  req.checkBody('vendor','Vendor is required').notEmpty();
+
+  //Get Errors
+  let errors = req.validationErrors();
+
+  if (errors) {
+    res.render('pages/products/add',{
+      errors: errors
+    });
+    console.log(errors);
+  } else {
+    let prod_ven= new ProductsVendor();
+    prod_ven.products = req.body.product_id;
+    prod_ven.vendor = req.body.vendor;
+
+      prod_ven.save(function(err){
+      if(err){
+        req.flash('danger','Product not added');
+        console.log(err);
+        return;
+      } else{
+        req.flash('success','Product added');
+        res.redirect('/products/view/'+req.body.product_id);
+      }
+      });
+  }
 });
 
 //Products edit Info
@@ -487,6 +600,18 @@ router.get('/attrib_type/:id',function(req, res,next){
 router.get('/ajax_quick_edit/:id',(req, res, next)=>{
   Products.findById(req.params.id,(err,products)=>{
     res.send("<form action='/products/quick-edit-info/"+ products.id+"' method='post' role='form' class='row'><div class='col-md-12 col-sm-12 col-xs-12 row'><div class='col-md-12 col-sm-12 col-xs-12 form-group has-feedback'><label class='control-label col-md-3 col-sm-3 col-xs-12' for='title'>Title </label><div class='col-md-12 col-sm-12 col-xs-12'><input name='title' class='form-control' placeholder='Title' value='"+products.title+"' required></div></div><div class='col-md-6 col-sm-6 col-xs-12 form-group has-feedback'><label class='control-label col-md-3 col-sm-3 col-xs-12' for='price'>Price </label><div class='col-md-9 col-sm-9 col-xs-12'><input name='price' class = 'form-control' placeholder='Price' value='"+ products.price +"' required></div></div><div class='col-md-6 col-sm-6 col-xs-12 form-group has-feedback'></div><div class='col-md-6 col-sm-6 col-xs-12 form-group has-feedback'><label class='control-label col-md-12 col-sm-12 col-xs-12' for='special_price'>Special Price </label><div class='col-md-9 col-sm-9 col-xs-12'><input name='special_price' class = 'form-control' value='"+ products.special_price +"' placeholder='Special Price'></div></div><div class='col-md-6 col-sm-6 col-xs-12 form-group has-feedback'><label class='control-label col-md-3 col-sm-3 col-xs-12' for='cost'>Cost </label><div class='col-md-9 col-sm-9 col-xs-12'><input type='text' name='cost' class='form-control' placeholder='Cost' value='"+products.cost +"' required></div></div><div class='clearfix'></div></div><div class='form-group'><div class='col-md-9 col-sm-9 col-xs-12 col-md-offset-3'><button type='submit' class='btn btn-success'>Submit</button></div></div></form>");
+  });
+});
+
+router.get('/ajax_quick_vendor/:id',(req, res, next)=>{
+  ProductsVendor.
+  find({products:req.params.id}).
+  sort({cost:'ascending'}).
+  populate('vendor','name',Vendor).
+  exec((err,vendor)=>{
+    res.render('pages/ajax/product_vendor',{
+      vendor: vendor
+    });
   });
 });
 

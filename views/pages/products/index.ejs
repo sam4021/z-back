@@ -56,6 +56,7 @@
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                           <a href="/products/view/<%= product.id %>" class="btn btn-success">View</a>
                           <button type="button" class="btn btn-info" onclick="quick_edit('<%= product.id %>')">Q-Edit</button>
+                          <button type="button" class="btn btn-dark" onclick="quick_vendor('<%= product.id %>')">Vendors</button>
                         </div>
                       </td>
                   </tr>
@@ -155,6 +156,21 @@
         </button>
       </div>
       <div id="editBody" class="modal-body">
+
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="QuickVendor" tabindex="-1" role="dialog" aria-labelledby="QuickVendor" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Vendor Cost</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div id="vendorBody" class="modal-body">
 
       </div>
     </div>

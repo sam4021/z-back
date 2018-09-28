@@ -684,6 +684,15 @@ function addImgRows(frm) {
 function removeImgRow(removeNum) {
     jQuery('#imgCount' + removeNum).remove();
 }
+function addvendorProd(id) {
+    rowCount++;
+    var vendor =$('#product_'+id).val();
+    var recRow = '  <tr id="prodCount' + id + '"><td>'+ vendor +'<input name="product[]" type="hidden" value="'+ id +'" /></td><td><input name="cost[]" type="text" class="form-control" /></td><td><input name="feature[]" type="text" class="form-control" /></td><td><button type="button" class="btn btn-danger btn-app-sm btn-circle" onclick="removeVendorProd(\'' + id + '\');"><i class="fa fa-times"></i></button></td></tr>';
+    jQuery('#Prod-Vendor').append(recRow);
+  }
+  function removeVendorProd(removeNum) {
+      jQuery('#prodCount' + removeNum).remove();
+  }
 function addMoreRows(frm) {
     rowCount++;
     var recRow = '<tr id="rowCount' + rowCount + '" class="row"><td style="padding: 2px 5px;"><input name="sd[]" id="id' + rowCount + '" type="text" class="form-control" /></td><td style="padding: 2px 5px;"><a  class="input-field btn-floating red" href="javascript:void(0);" onclick="removeRow(' + rowCount + ');" style="padding: 0px;"><i class="material-icons dp48" style="padding: 0px;margin: 0px;">delete</i></a></td></tr>';
@@ -1088,4 +1097,22 @@ function client_data(id) {
         var card = Number($('input[name="card"]').val());
         var total = cash + card + mpesa + cheque;
         document.getElementById('total_pay').innerHTML = total;
+    }
+    function quick_vendor(id) {
+        var xhr;
+          if (window.XMLHttpRequest) {xhr = new XMLHttpRequest();}
+        else if (window.ActiveXObject) {xhr = new ActiveXObject("Msxml2.XMLHTTP");}
+        else {throw new Error("Ajax is not supported by this browser");}
+        xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                        if (xhr.status == 200 && xhr.status < 300) {
+                jQuery.noConflict();
+                            $('#QuickVendor').modal('show');
+                                document.getElementById('vendorBody').innerHTML = xhr.responseText;
+                        }
+                }
+        }
+        xhr.open('GET', '/products/ajax_quick_vendor/'+id);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.send();
     }

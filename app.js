@@ -117,7 +117,6 @@ app.use(function(req, res, next){
   else res.redirect('/login');
 });
 
-
 const index = require('./routes/index');
 const client = require('./routes/client');
 const home = require('./routes/home');
@@ -125,6 +124,7 @@ const sale = require('./routes/sale');
 const blog = require('./routes/blog');
 const settings = require('./routes/settings');
 const products = require('./routes/products');
+const vendor = require('./routes/vendor');
 //const pdf_file = require('./routes/pdf');
 
 
@@ -135,6 +135,7 @@ app.use('/sale',sale);
 app.use('/blog',blog);
 app.use('/settings',settings);
 app.use('/products',products);
+app.use('/vendor',vendor);
 //app.use('/pdf',pdf_file);
  
 //Start Server
