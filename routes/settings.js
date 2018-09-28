@@ -1375,22 +1375,27 @@ router.post('/category_status/:id', (req, res) => {
 //Delete Category
 router.get('/delete-cat/:id',(req, res)=>{
   Category.findById(req.params.id,(err,cat)=>{
-    var id= cat.id;
-    Category.find({parent:id},(err,cat1)=>{
+    if(cat){
+     Category.find({parent:cat.id},(err,cat1)=>{
+      if(cat1){
       for (var c of cat1){
           console.log(c);
           Category.find({parent:c.id},(err,cat2)=>{
+            if(cat2){
             for (var c1 of cat2){
               Category.remove({ _id:c1.id }, function (err) {
                 console.log(err);
               });
               }
+            }
           });
           Category.remove({ _id:c.id }, function (err) {
             console.log(err);
           });
       }
-    });
+      } 
+     });
+    }
   });
   Category.remove({ _id:req.params.id }, function (err) {
     console.log(err);
