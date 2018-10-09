@@ -103,13 +103,12 @@ router.post('/add', (req, res) => {
     // products.images = image;
 
       products.save(function(err, new_product){
-        let prodId = new_product._id;
-
        if(err){
          req.flash('danger','Product not added');
         console.log(err);
          return;
        } else{
+        let prodId = new_product._id;
          req.flash('success','Product added');
          res.redirect('/products/view/'+prodId);
       }
