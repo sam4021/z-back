@@ -15,6 +15,9 @@
         <li class="nav-item">
           <a class="nav-link" id="offstock-tab" data-toggle="tab" href="#offstock" role="tab" aria-controls="offstock" aria-selected="false">Out Of Stock</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" id="upcoming-tab" data-toggle="tab" href="#upcoming" role="tab" aria-controls="upcoming" aria-selected="false">Upcoming</a>
+        </li>
       </ul>
       <div class="tab-content">
         <div class="tab-pane active" id="instock" role="tabpanel" aria-labelledby="instock-tab">
@@ -69,7 +72,6 @@
                     <th>Price</th>
                     <th>Reseller Price</th>
                     <th>Special Price</th>
-                    <th>Store</th>
                     <th>Web</th>
                     <th class="actions">Actions</th>
                   </tr>
@@ -85,7 +87,6 @@
                     <th scope="col">Price</th>
                     <th scope="col">Reseller Price</th>
                     <th scope="col">Special Price</th>
-                    <th scope="col">Store</th>
                     <th scope="col">Web</th>
                     <th scope="col" class="actions">Actions</th>
                   </tr>
@@ -135,13 +136,76 @@
                     <th>Price</th>
                     <th>Reseller Price</th>
                     <th>Special Price</th>
-                    <th>Store</th>
                     <th>Web</th>
                     <th class="actions">Actions</th>
                   </tr>
               </tfoot>
             </table>
         </div>
+        <div class="tab-pane" id="upcoming" role="tabpanel" aria-labelledby="upcoming-tab">
+          <table class="table table-striped table-hover table-sm data-tables-select">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">Title</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">Price</th>
+                  <th scope="col">Reseller Price</th>
+                  <th scope="col">Special Price</th>
+                  <th scope="col">Web</th>
+                  <th scope="col" class="actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% for(var product of products){ 
+                  if(product.stock == 0){
+                  %>
+                <tr <% if(product.deleted == 2){ %>style="background-color:red" <% } %>>
+                    <td><%= product.title %></td>
+                    <td>
+                        <% for(var c of cat){
+                          if(product.category == c.id){ %>
+                          <%= c.title %>
+                        <% } } %>
+                    </td>
+                    <td><%= product.price %></td>
+                    <td><%= product.reseller_price %></td>
+                    <td><%= product.special_price %></td>
+                    <td>
+                      <label class="switch" onclick="makeVisible_1('<%= product.id %>')">
+                        <input type="checkbox" <% if(product.is_active==1){ %>checked <% } %>>
+                        <span class="slider round"></span>
+                      </label>
+                      <input type="hidden" name="product-status-<%= product.id %>" value="<% if(product.is_active==0){ %> 1 <% } else{ %> 0 <% } %>">
+                    </td>
+                    <td>
+                      <label class="switch" onclick="makeVisible_2('<%= product.id %>')">
+                        <input type="checkbox" <% if(product.is_web_active==1){ %>checked <% } %>>
+                        <span class="slider round"></span>
+                      </label>
+                      <input type="hidden" name="product-status2-<%= product.id %>" value="<% if(product.is_web_active==0){ %> 1 <% } else{ %> 0 <% } %>">
+                    </td>
+                    <td class="actions">
+                      <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                        <a href="/products/view/<%= product.id %>" class="btn btn-success">View</a>
+                        <button type="button" class="btn btn-info" onclick="quick_edit('<%= product.id %>')">Q-Edit</button>
+                      </div>
+                    </td>
+                </tr>
+                <% } } %>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Reseller Price</th>
+                  <th>Special Price</th>
+                  <th>Web</th>
+                  <th class="actions">Actions</th>
+                </tr>
+            </tfoot>
+          </table>
+      </div>
       </div>
 	
 </div>

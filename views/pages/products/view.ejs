@@ -11,6 +11,7 @@
 		<select class=" custom-select" name="product-stock-status" id="product-stock-status" style="width: 150px;display: initial;">
       <option value="0" <% if(products.stock==0){ %> selected <% } %>>No Stock</option>
 			<option value="1" <% if(products.stock==1){ %> selected <% } %>>In Stock</option>
+			<option value="2" <% if(products.stock==2){ %> selected <% } %>>Upcoming</option>
     </select>
 
 		<% if(products.deleted==1){ %>

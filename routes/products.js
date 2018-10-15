@@ -106,6 +106,7 @@ router.post('/add', (req, res) => {
        if(err){
          req.flash('danger','Product not added');
         console.log(err);
+        res.redirect('/products/add');
          return;
        } else{
         let prodId = new_product._id;
@@ -147,9 +148,9 @@ router.post('/quick-add', (req, res) => {
        if(err){
          req.flash('danger','Product not added');
         console.log(err);
+        res.redirect('/products/add');
          return;
        } else{
-
          req.flash('success','Product added');
          res.redirect('/products/view/'+prodId);
       }
