@@ -271,11 +271,21 @@ router.post('/edit-main-category-txt/:id', function(req,res){
         let link = req.body.link_image;
         let alt = req.body.alt_image;
         let products = req.body.product;
+         console.log();
+         
         PhoneMainCategory.findById(req.params.id,(err,ph)=>{
           var prods = ph.products;
-          products.forEach(element => {
-            prods.push(element);
-          });
+          if (req.body.product) {
+            if (Array.isArray(req.body.product)) {
+              products.forEach(element => {
+                prods.push(element);
+              }); 
+            } else {
+              prods.push(products);
+            }
+            
+          }
+          
           PhoneMainCategory.updateMany({ _id:req.params.id },{
           $set:{
             category: category ,
@@ -283,10 +293,10 @@ router.post('/edit-main-category-txt/:id', function(req,res){
             image:{img:img,link:link,alt:alt}
            }
         }, { multi: true }).exec();
-
+ 
       req.flash('success','Main Category Edited');
       res.redirect('/settings/');
-        });
+       });
       
 });
 
