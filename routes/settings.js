@@ -397,7 +397,7 @@ if(i != -1) {
 	products.splice(i, 1);
 }
    PhoneMainCategory.updateMany({ _id:req.params.id },{ $set:{ products: products }}, { multi: true }).exec();
-        res.redirect('/settings/edit-main-category/'+req.params.id);
+        res.redirect('/settings/edit-main-category-txt/'+req.params.id);
   });
 });
 
