@@ -271,17 +271,23 @@ router.post('/edit-main-category-txt/:id', function(req,res){
         let link = req.body.link_image;
         let alt = req.body.alt_image;
         let products = req.body.product;
-
-        PhoneMainCategory.updateMany({ _id:req.params.id },{
+        PhoneMainCategory.findById(req.params.id,(err,ph)=>{
+          var prods = ph.products;
+          products.forEach(element => {
+            prods.push(element);
+          });
+          PhoneMainCategory.updateMany({ _id:req.params.id },{
           $set:{
             category: category ,
-            products:products,
+            products:prods,
             image:{img:img,link:link,alt:alt}
            }
         }, { multi: true }).exec();
 
       req.flash('success','Main Category Edited');
       res.redirect('/settings/');
+        });
+      
 });
 
 router.post('/edit-main-category-img/:id', function(req,res){
@@ -380,7 +386,7 @@ router.get('/delete-main-category-prod/:id/:prod', function(req, res){
   PhoneMainCategory.findById(req.params.id,(err,pcategory)=>{
     if(err){
       req.flash('danger','Product not deleted');
-      res.redirect('/settings/edit-main-category/'+req.params.id);
+      res.redirect('/settings/edit-main-category-txt/'+req.params.id);
       console.log(err);
       return;
     }
