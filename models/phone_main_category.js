@@ -25,6 +25,7 @@ const PhoneMainCategorySchema = mongoose.Schema({
     alt:{type: String,default: ''}
   },
   brands: [{ type: ObjectId, ref: 'Brand' }],
+  sort:{type: Number,default: 0}
 });
 
 PhoneMainCategorySchema.plugin(timestamps,  {

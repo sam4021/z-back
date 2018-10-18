@@ -208,6 +208,7 @@ router.post('/add-main-category', function(req,res){
     cloudinary.uploader.upload_stream((cloud_img) => {
         let cat= new PhoneMainCategory();
         cat.category = req.body.category;
+        cat.sort = req.body.sort;
         cat.image.img = cloud_img.secure_url;
         cat.image.link = req.body.link_image;
         cat.image.alt = req.body.alt_image;
@@ -271,6 +272,7 @@ router.post('/edit-main-category-txt/:id', function(req,res){
         let link = req.body.link_image;
         let alt = req.body.alt_image;
         let products = req.body.product;
+        let sort = req.body.sort;
          console.log();
          
         PhoneMainCategory.findById(req.params.id,(err,ph)=>{
@@ -290,7 +292,8 @@ router.post('/edit-main-category-txt/:id', function(req,res){
           $set:{
             category: category ,
             products:prods,
-            image:{img:img,link:link,alt:alt}
+            image:{img:img,link:link,alt:alt},
+            sort:sort
            }
         }, { multi: true }).exec();
  
