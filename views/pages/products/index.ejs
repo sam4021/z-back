@@ -150,7 +150,7 @@
               </thead>
               <tbody>
                 <% for(var product of products){ 
-                  if(product.stock == 0){
+                  if(product.stock == 2){
                   %>
                 <tr <% if(product.deleted == 2){ %>style="background-color:red" <% } %>>
                     <td><%= product.title %></td>
