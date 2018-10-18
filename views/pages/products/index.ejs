@@ -113,13 +113,6 @@
                         </label>
                         <input type="hidden" name="product-status-<%= product.id %>" value="<% if(product.is_active==0){ %> 1 <% } else{ %> 0 <% } %>">
                       </td>
-                      <td>
-                        <label class="switch" onclick="makeVisible_2('<%= product.id %>')">
-                          <input type="checkbox" <% if(product.is_web_active==1){ %>checked <% } %>>
-                          <span class="slider round"></span>
-                        </label>
-                        <input type="hidden" name="product-status2-<%= product.id %>" value="<% if(product.is_web_active==0){ %> 1 <% } else{ %> 0 <% } %>">
-                      </td>
                       <td class="actions">
                         <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                           <a href="/products/view/<%= product.id %>" class="btn btn-success">View</a>
@@ -176,13 +169,6 @@
                         <span class="slider round"></span>
                       </label>
                       <input type="hidden" name="product-status-<%= product.id %>" value="<% if(product.is_active==0){ %> 1 <% } else{ %> 0 <% } %>">
-                    </td>
-                    <td>
-                      <label class="switch" onclick="makeVisible_2('<%= product.id %>')">
-                        <input type="checkbox" <% if(product.is_web_active==1){ %>checked <% } %>>
-                        <span class="slider round"></span>
-                      </label>
-                      <input type="hidden" name="product-status2-<%= product.id %>" value="<% if(product.is_web_active==0){ %> 1 <% } else{ %> 0 <% } %>">
                     </td>
                     <td class="actions">
                       <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">

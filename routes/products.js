@@ -312,11 +312,14 @@ router.post('/assign_vendor', (req, res) => {
 //Products edit Info
 router.get('/edit-info/:id', function(req, res, next){
   Products.findById(req.params.id, function(err, products){
+    Brand.find({}, function(err, brand){
         res.render('pages/products/edit-info',{
           products: products,
+          brand: brand
         });
       });
     });
+  });
 
 //Update Product info
 router.post('/edit-info/:id', (req, res) => {
@@ -325,9 +328,10 @@ router.post('/edit-info/:id', (req, res) => {
      let title = req.body.title;
      let price = req.body.price;
      let cost = req.body.cost;
+     let brand = req.body.brand;
      let special_price = req.body.special_price;
 
-    Products.updateMany({ _id:req.params.id },{ $set:{ title: title , price: price , special_price:special_price, cost: cost }}, { multi: true }).exec();
+    Products.updateMany({ _id:req.params.id },{ $set:{ title: title , price: price , special_price:special_price, cost: cost, brand:brand }}, { multi: true }).exec();
          res.redirect('/products/view/'+req.params.id);
 });
 
