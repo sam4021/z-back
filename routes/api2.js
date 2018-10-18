@@ -560,7 +560,7 @@ router.get('/all-brands', function(req, res, next){
 router.get('/home', function(req, res, next){
   PhoneMainCategory.
   find().
-  sort({sort:'-1'}).
+  sort({sort:'1'}).
   populate('category','title url',Category).
   populate('products','title url price special_price images',Products).
   exec((err, main)=>{
