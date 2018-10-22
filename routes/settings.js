@@ -615,11 +615,14 @@ router.post('/edit-side-ad/:id', function(req,res){
 //Delete Side
 router.get('/delete-side-ad/:id',(req, res)=>{
   PhoneMainSide.findById(req.params.id,(err,slider)=>{
-    var id= slider.id;
+    if(slider){
+      var id= slider.id;
     
     var image = /[^/]*$/.exec(slider.image)[0];
     var publicId = image.replace(/\..+$/, '');
     cloudinary.v2.uploader.destroy(publicId, function(error, result){console.log(result, error)});
+    }
+    
   });
   PhoneMainSide.remove({ _id:req.params.id }, function (err) {
     console.log(err);
