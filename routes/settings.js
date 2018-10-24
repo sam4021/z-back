@@ -313,8 +313,6 @@ router.post('/edit-main-category-img/:id', function(req,res){
 
         PhoneMainCategory.updateMany({ _id:req.params.id },{
           $set:{
-            category: category ,
-            products:products,
             image:{img:img
             //  ,link:link,alt:alt
             }
