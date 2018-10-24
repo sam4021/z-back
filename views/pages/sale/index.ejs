@@ -25,9 +25,9 @@ function formatDate(date) {
 </div>
 <div class="page-content">
 	<ul class="nav nav-tabs" id="myTab" role="tablist">
-  <!-- <li class="nav-item">
-    <a class="nav-link" id="Web-tab" data-toggle="tab" href="#Web" role="tab" aria-controls="Web" aria-selected="true">Web <span class="badge badge-light"></span></a>
-  </li> -->
+  <li class="nav-item">
+    <a class="nav-link" id="Web-tab" data-toggle="tab" href="#Web" role="tab" aria-controls="Web" aria-selected="true">New <span class="badge badge-light"></span></a>
+  </li>
 	<li class="nav-item">
 		<% var count = 0; for(var sal of sale){
 		if(sal.status == 'Open'){
@@ -65,7 +65,7 @@ function formatDate(date) {
   </li>
 </ul>
 <div class="tab-content" id="myTabContent">
-  <!-- <div class="tab-pane fade show active" id="Web" role="tabpanel" aria-labelledby="Web-tab">
+  <div class="tab-pane fade show active" id="Web" role="tabpanel" aria-labelledby="Web-tab">
 		<table class="table table-striped table-hover table-sm data-tables">
 			<thead class="thead-dark">
 				<tr>
@@ -95,8 +95,8 @@ function formatDate(date) {
 				<% } %>
 			</tbody>
 		</table>
-	</div> -->
-	<div class="tab-pane fade show active" id="Open" role="tabpanel" aria-labelledby="Open-tab">
+	</div>
+	<div class="tab-pane fade" id="Open" role="tabpanel" aria-labelledby="Open-tab">
 		<table class="table table-striped table-hover table-sm data-tables">
 			<thead class="thead-dark">
 				<tr>
