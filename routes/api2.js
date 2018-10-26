@@ -563,6 +563,7 @@ router.get('/home', function(req, res, next){
   sort({sort:'1'}).
   populate('category','title url',Category).
   populate('products','title url price special_price images',Products).
+  populate('brands','title url',Brand).
   exec((err, main)=>{
     if (err) console.log(err);
     let mainArr = [];

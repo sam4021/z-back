@@ -246,10 +246,13 @@ router.get('/edit-main-category-txt/:id', function(req, res){
   PhoneMainCategory.findById(req.params.id,(err,pcategory)=>{
     Category.find({}, (err, category) =>{
       Products.find({},(err,products)=>{
+        Brand.find({},(err,brand)=>{
           res.render('pages/settings/main-category/edit-main-category-txt',{
             category: category,
             products: products,
-            pcategory:pcategory
+            pcategory:pcategory,
+            brand: brand
+          });
         });
       });
     });
@@ -273,10 +276,12 @@ router.post('/edit-main-category-txt/:id', function(req,res){
         let alt = req.body.alt_image;
         let products = req.body.product;
         let sort = req.body.sort;
+        let brands = req.body.brand;
          console.log();
          
         PhoneMainCategory.findById(req.params.id,(err,ph)=>{
           var prods = ph.products;
+          var bran = ph.brands;
           if (req.body.product) {
             if (Array.isArray(req.body.product)) {
               products.forEach(element => {
@@ -287,13 +292,24 @@ router.post('/edit-main-category-txt/:id', function(req,res){
             }
             
           }
+          if (req.body.brand) {
+            if (Array.isArray(req.body.brand)) {
+              brands.forEach(element => {
+                bran.push(element);
+              }); 
+            } else {
+              bran.push(brands);
+            }
+            
+          }
           
           PhoneMainCategory.updateMany({ _id:req.params.id },{
           $set:{
             category: category ,
             products:prods,
             image:{img:img,link:link,alt:alt},
-            sort:sort
+            sort:sort,
+            brands:bran
            }
         }, { multi: true }).exec();
  
@@ -408,6 +424,25 @@ if(i != -1) {
 	products.splice(i, 1);
 }
    PhoneMainCategory.updateMany({ _id:req.params.id },{ $set:{ products: products }}, { multi: true }).exec();
+        res.redirect('/settings/edit-main-category-txt/'+req.params.id);
+  });
+});
+
+//Delete Main Category Brand
+router.get('/delete-main-category-brand/:id/:prod', function(req, res){
+  PhoneMainCategory.findById(req.params.id,(err,pcategory)=>{
+    if(err){
+      req.flash('danger','Brand not deleted');
+      res.redirect('/settings/edit-main-category-txt/'+req.params.id);
+      console.log(err);
+      return;
+    }
+    let brand = pcategory.brands;
+    var i = brand.indexOf(req.params.prod);
+    if(i != -1) {
+      brand.splice(i, 1);
+    }
+   PhoneMainCategory.updateMany({ _id:req.params.id },{ $set:{ brands: brand }}, { multi: true }).exec();
         res.redirect('/settings/edit-main-category-txt/'+req.params.id);
   });
 });

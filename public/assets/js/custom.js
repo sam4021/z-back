@@ -823,6 +823,15 @@ function addProdC(x){
 function removeProdC(x) {
     jQuery('#catCount' + x).remove();
 }
+function addBrandC(x){
+	rowCount++;
+  var brand =$('#brand_'+x).val();  
+	var recRow = '<tr id="catBCount' + x + '"><td><input name="brand" type="hidden" value="'+ x +'" />'+ brand +'</td><td><button type="button" class="btn btn-danger btn-app-sm btn-circle" onclick="removeBrandC(\'' + x + '\');"><i class="fa fa-times"></i></button></td></tr>';
+	jQuery('#Brand-Cat').append(recRow);
+}
+function removeBrandC(x) {
+    jQuery('#catBCount' + x).remove();
+}
 
 function addcoll(x){
      var values1 = $(x).val();
