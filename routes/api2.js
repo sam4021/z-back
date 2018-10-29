@@ -1141,7 +1141,6 @@ router.post('/order', function(req, res, next){
   sale.status = 'raw';
   sale.cart = req.body.cart;
   sale.delivery_location = req.body.delivery_location;
-  sale.shipping = req.body.shipping;
 
   sale.save(function(err){
     if(err){

@@ -33,10 +33,6 @@ const SaleWebSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  shipping: {
-      type: ObjectId,
-       ref: 'PhoneMainShipping'
-  },
   status: {
     type: String,
     required: true
