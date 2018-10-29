@@ -307,7 +307,7 @@ router.post('/edit-main-category-txt/:id', function(req,res){
           $set:{
             category: category ,
             products:prods,
-            image:{img:img,link:link,alt:alt},
+            image:{link:link,alt:alt},
             sort:sort,
             brands:bran
            }
