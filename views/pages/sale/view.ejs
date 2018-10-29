@@ -75,7 +75,7 @@ balance=GTotal-fAmount; %>
             <% if(saleConn){ %>
               <% var ship=0; for(var saleW of saleWeb){
                   if(saleW.id == saleConn.web){
-                    ship= GTotal + saleW.shipping.amount
+                    ship= GTotal
                } } %>
               <%= ship %>
             <% } else{ %>
@@ -124,7 +124,7 @@ balance=GTotal-fAmount; %>
               if(d.id == saleW.shipping.location){ %>
               <%= d.location %>
             <% } } %>
-            | Ksh. <%= saleW.shipping.amount %></td>
+            | Ksh.</td>
         </tr>
       </table>
       <hr>
@@ -142,20 +142,17 @@ balance=GTotal-fAmount; %>
         <% for(var sprod of saleProd ){ 
             if(sale.id == sprod.sale){ %>
           <tr>
-            <td><%= sprod.product.product.title %></td>
+            <td><%= sprod.product.title %></td>
             <td><%= sprod.price %></td>
             <td>
-              <% var qty=0; for(var i of imei){
-                if(i.sale == sprod.id){
-                qty=qty+1;
-              } } %>
+              <% var qty=0; %>
               <%= qty %></td>
             <td>
               <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-primary" id="<%= sprod.id %>" onclick="sale_addImei('<%= sprod.product.id %>')">Imei</button>
+                <!-- <button type="button" class="btn btn-primary" id="<%= sprod.id %>" onclick="sale_addImei('<%= sprod.product.id %>')">Imei</button>
                 <% if(qty !=0){ %>
                    <button type="button" class="btn btn-warning" id="<%= sprod.id %>" onclick="sale_editImei('<%= sprod.id %>')">Edit Imei</button>
-              <% } %>
+              <% } %> -->
                 <button type="button" class="btn btn-success" id="<%= sprod.id %>" onclick="sale_edit('<%= sprod.id %>')">Edit</button>
               </div>
             </td>
@@ -325,13 +322,10 @@ balance=GTotal-fAmount; %>
                         var total;
                         gTotal=gTotal+(qty*sprod.price);%>
                     <tr>
-                      <td><%= sprod.product.product.title %></td>
+                      <td><%= sprod.product.title %></td>
                       <td><%= sprod.price %></td>
                       <td>
-                        <% var qty=0; for(var i of imei){
-                          if(i.sale == sprod.id){
-                          qty=qty+1;
-                        } } %>
+                        <% var qty=0;  %>
                         <%= qty %></td>
                       <td>
                         <%= qty*sprod.price %>
@@ -440,19 +434,12 @@ balance=GTotal-fAmount; %>
                     var total;
                      gTotal=gTotal+(qty*sprod.price);%>
                 <tr>
-                    <% for(var c of col){
-                      if(sprod.product==c.id){
-                       for( var prod of products){
-                         if(c.product == prod.id){
-                        %>
-                      <td><%= prod.title %></td>
-                    <% } } } } %>
+                    
+                      <td></td>
+                    
                   <td><%= sprod.price %></td>
                   <td>
-                    <% var qty=0; for(var i of imei){
-                      if(i.sale == sprod.id){
-                      qty=qty+1;
-                    } } %>
+                    <% var qty=0;  %>
                     <%= qty %></td>
                   <td>
                     <%= qty*sprod.price %>
@@ -588,51 +575,24 @@ balance=GTotal-fAmount; %>
                   <tr>
                     <td></td>
                     <th>Title</th>
-                    <th>Price</th>
-                    <th>Vendor</th>
-                    <th>Imei</th>
-                    <th>Quantity</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <% for(var prod of col){
-                      var total=0; 
-                      for(var pro of cprod){
-                        if(pro.collected == prod.id){total=total+1;} 
-                      }
-                        if(total > 0){
-                       %>
+                  <% for(var prod of products){ %>
                   <tr id="tr_<%= prod.id %>">
-                      <td>
-                        <div class="form-group checkbox-warning-filled">
-                            <input type="checkbox" name="product[]" value="<%= prod.id %>" id="ch_<%= prod.id %>" class="filled-in" onclick="addprod('<%= prod.id %>')">
-                            <label for="<%= prod.id %>"></label>
-                            <input type="hidden" name="product[]" value="<%= prod.id %>" id="P_<%= prod.id %>">
-                            <input type="hidden" value="<%= prod.product.title %>" id="title_<%= prod.id %>">
-                            <input type="hidden" value="<%= prod.product.price %>" id="price_<%= prod.id %>">
-                            <input type="hidden" value="<%= prod.product.cost %>" id="cost_<%= prod.id %>">
-                        </div>
-                      </td>
-                      <td><%= prod.product.title %></td>
-                      <td><%= prod.product.price %></td>
-                      <td>
-                          <%= prod.vendor.name %>
-                      </td>
-                      <td>
-                        <% for(var p of cprod){
-                          if(p.collected==prod.id){ %>
-                            <%= p.imei %>,
-                        <% } } %>
-                      </td>
-                      <td>
-                        <% var total=0; for(var pro of cprod){
-                          if(pro.collected == prod.id && pro.status !='Sold'){ %>
-                          <% total=total+1 %>
-                        <% } } %>
-                        <%= total %>
-                      </td>
-                  </tr>
-                  <% } } %>
+                    <td>
+                      <div class="form-group checkbox-warning-filled">
+                          <input type="checkbox" name="product[]" value="<%= prod.id %>" id="ch_<%= prod.id %>" class="filled-in" onclick="addprod('<%= prod.id %>')">
+                          <label for="<%= prod.id %>"></label>
+                          <input type="hidden" name="product[]" value="<%= prod.id %>" id="P_<%= prod.id %>">
+                          <input type="hidden" value="<%= prod.title %>" id="title_<%= prod.id %>">
+                          <input type="hidden" value="<%= prod.price %>" id="price_<%= prod.id %>">
+                          <input type="hidden" value="<%= prod.cost %>" id="cost_<%= prod.id %>">
+                      </div>
+                    </td>
+                    <td><%= prod.title %></td>
+                </tr>
+                <% } %>
         
                 </tbody>
               </table>

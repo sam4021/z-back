@@ -401,6 +401,7 @@ router.get('/view/:id', function(req, res, next){
   exec((err, sale)=>{
     SaleStatus.find({sale:req.params.id},function(err, status){
       SaleProducts.find({sale:req.params.id}).
+      populate('product','title',Products).
       exec((err, sale_products)=>{
               PaymentClient.find({}, (err, payment)=>{
                     Courier.find({},function(err, courier){
@@ -412,6 +413,9 @@ router.get('/view/:id', function(req, res, next){
                               .find({})
                               .populate('shipping','location amount',PhoneMainShipping)
                               .exec((err,saleWeb)=>{
+                                Products
+                                .find()
+                                .exec((err,products)=>{
                                 res.render('pages/sale/view',{ 
                                   saleProd: sale_products,
                                   sale: sale,
@@ -423,8 +427,10 @@ router.get('/view/:id', function(req, res, next){
                                   sCourier: sCourier,
                                   saleWeb: saleWeb,
                                   saleConn: saleConn,
-                                  user: req.user
+                                  user: req.user,
+                                  products: products
                               });
+                            });
                             });
                           });
                         });
