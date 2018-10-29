@@ -96,16 +96,13 @@ router.get('/sale_web_view/:id', function(req, res, next){
         .where('_id')
         .in(ProdArr)
         .exec(function (err, prod) {
-          DeliveryLocation
-          .findById(saleWeb.shipping.location)
-          .exec((err,location)=>{
+          
             res.render('pages/sale/sale_web_view',{
               client: client,
               saleWeb: saleWeb,
-              prod: prod,
-              location: location
+              prod: prod
             });
-          });
+          
         });
     });
   });
