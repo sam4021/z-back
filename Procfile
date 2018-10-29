@@ -1,1 +1,1 @@
-web: pm2 start app.js -i max
+web: node app.js
