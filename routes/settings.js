@@ -1182,6 +1182,22 @@ router.post('/add-brand', function(req,res){
   // }
 });
 
+//Update Product Status
+router.post('/brand_front/:id', (req, res) => {
+
+  let query = {_id: req.params.id};
+  let status =req.body.front;
+
+  Brand.update(query,{ front: status}).exec();
+
+   if (status==0) {
+     res.send('1');
+   } else {
+     res.send('0');
+   }
+
+});
+
 //Load Edit Brand
 router.get('/edit-brand/:id', function(req, res){
   Brand.findById(req.params.id,function(err, brand){

@@ -581,6 +581,36 @@ function makeVisible_cat(x) {
     xhr.send(sent);
   
   }
+  function makeVisible_Brand(x) {
+    var status =$('input[name="brand-status-'+x+'"]').val();
+    var sReturn = 0;
+    if(status == 0){
+      sReturn = 1;
+    }
+  
+    var xhr;
+    if (window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest();
+    }
+    else if (window.ActiveXObject) {
+        xhr = new ActiveXObject("Msxml2.XMLHTTP");
+    }
+    else {
+        throw new Error("Ajax is not supported by this browser");
+    }
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status == 200 && xhr.status < 300) {
+                $('input[name="brand-status-'+x+'"]').val(xhr.responseText);
+            }
+        }
+    }
+    var sent = "id="+x+"&front="+status;
+    xhr.open('POST', '/settings/brand_front/'+x);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(sent);
+  
+  }
 function quick_edit(id) {
 	var xhr;
   	if (window.XMLHttpRequest) {xhr = new XMLHttpRequest();}
