@@ -70,8 +70,8 @@
        </thead>
        <tbody id="Brand-Cat">
         <% 
-        if(pcategory.brand){
-        for(var pc of pcategory.brand){
+        
+        for(var pc of pcategory.brands){
 						for(var p of brand){
 							if(p.id == pc){ %>
 						<tr id="catCount<%=pc%>">
@@ -84,7 +84,7 @@
 								</a>
 							</td>
 						</tr>
-				<% } } } }%>
+				<% } } } %>
 			 </tbody>
      </table>
      </div>
