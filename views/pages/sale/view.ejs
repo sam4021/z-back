@@ -115,16 +115,9 @@ balance=GTotal-fAmount; %>
       <table class="table table-striped table-hover table-sm">
         <tr>
           <th>Delivery Location</th>
-          <th>Ship Area</th>
         </tr>
         <tr>
             <td><%= saleW.delivery_location %></td>
-          <td>
-            <% for(var d of dLoc){ 
-              if(d.id == saleW.shipping.location){ %>
-              <%= d.location %>
-            <% } } %>
-            | Ksh.</td>
         </tr>
       </table>
       <hr>
@@ -146,7 +139,7 @@ balance=GTotal-fAmount; %>
             <td><%= sprod.price %></td>
             <td>
               <% var qty=0; %>
-              <%= qty %></td>
+              <%= sprod.qty %></td>
             <td>
               <div class="btn-group" role="group" aria-label="Basic example">
                 <!-- <button type="button" class="btn btn-primary" id="<%= sprod.id %>" onclick="sale_addImei('<%= sprod.product.id %>')">Imei</button>
@@ -277,14 +270,14 @@ balance=GTotal-fAmount; %>
         <div class="pdf-container">
           <div class="header">
             <div class="logo">
-              <img src="/assets/img/logo.png" alt="logo" class="logo">
+              <img src="https://www.static.phonestablets.co.ke/img/zuri/logo-placeholder.jpg" alt="logo" class="logo">
             </div>
             <div class="info">
-              <p>Phones & Tablets Kenya</p>
-              <p>Kimathi House, 1st Floor, office no. 106</p>
+              <p>Zuricart Kenya</p>
+              <p>Jamia Plaza, 2nd Floor</p>
               <p>Kimathi Street</p>
-              <p>0716690990 / 0721234545</p>
-              <p>sales@phonestablets.co.ke</p>
+              <p>0712944000</p>
+              <p>sales@zuricart.co.ke</p>
             </div>
             <div class="clearfix"></div>
             <div class="title">
@@ -320,15 +313,15 @@ balance=GTotal-fAmount; %>
                   <% var gTotal=0; for(var sprod of saleProd ){
                       if(sale.id == sprod.sale){
                         var total;
-                        gTotal=gTotal+(qty*sprod.price);%>
+                        gTotal=gTotal+(sprod.qty*sprod.price);%>
                     <tr>
                       <td><%= sprod.product.title %></td>
                       <td><%= sprod.price %></td>
                       <td>
                         <% var qty=0;  %>
-                        <%= qty %></td>
+                        <%= sprod.qty %></td>
                       <td>
-                        <%= qty*sprod.price %>
+                        <%= sprod.qty*sprod.price %>
                       </td>
                     </tr>
                   <% } } %>
@@ -390,14 +383,14 @@ balance=GTotal-fAmount; %>
         <div class="pdf-container">
           <div class="header">
             <div class="logo">
-              <img src="/assets/img/logo.png" alt="logo" class="logo">
+              <img src="https://www.static.phonestablets.co.ke/img/zuri/logo-placeholder.jpg" alt="logo" class="logo">
             </div>
             <div class="info">
-              <p>Phones & Tablets Kenya</p>
-              <p>Kimathi House, 1st Floor, office no. 106</p>
+              <p>Zuricart Kenya</p>
+              <p>Jamia Plaza, 2nd Floor</p>
               <p>Kimathi Street</p>
-              <p>0716690990 / 0721234545</p>
-              <p>sales@phonestablets.co.ke</p>
+              <p>0712944000</p>
+              <p>sales@zuricart.co.ke</p>
             </div>
             <div class="clearfix"></div>
             <div class="title">
@@ -432,7 +425,7 @@ balance=GTotal-fAmount; %>
               <% var gTotal=0; for(var sprod of saleProd ){
                   if(sale.id == sprod.sale){
                     var total;
-                     gTotal=gTotal+(qty*sprod.price);%>
+                     gTotal=gTotal+(sprod.qty*sprod.price);%>
                 <tr>
                     
                       <td></td>
@@ -440,9 +433,9 @@ balance=GTotal-fAmount; %>
                   <td><%= sprod.price %></td>
                   <td>
                     <% var qty=0;  %>
-                    <%= qty %></td>
+                    <%= sprod.qty %></td>
                   <td>
-                    <%= qty*sprod.price %>
+                    <%= sprod.qty*sprod.price %>
                   </td>
                 </tr>
               <% } } %>
