@@ -125,6 +125,7 @@ const blog = require('./routes/blog');
 const settings = require('./routes/settings');
 const products = require('./routes/products');
 const vendor = require('./routes/vendor');
+const inquiry = require('./routes/inquiry');
 //const pdf_file = require('./routes/pdf');
 
 
@@ -136,6 +137,7 @@ app.use('/blog',blog);
 app.use('/settings',settings);
 app.use('/products',products);
 app.use('/vendor',vendor);
+app.use('/inquiry',inquiry);
 //app.use('/pdf',pdf_file);
  
 //Start Server
