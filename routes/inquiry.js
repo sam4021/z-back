@@ -56,7 +56,7 @@ router.get('/view/:id',(req, res, next)=>{
   findById(req.params.id).
   populate('product','title',Products).
   exec((err,salCont)=>{
-    res.render('pages/ajax/web_inquery_view',{
+    res.render('pages/inquiry/view',{
       salCont: salCont
     });
   });

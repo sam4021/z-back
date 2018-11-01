@@ -67,18 +67,20 @@ function formatDate(date) {
 				<thead class="thead-dark">
 					<tr>
 						<th>Date</th>
+						<th>Client</th>
 						<th>Query</th>
-						<th>By</th>
+						<th>Note</th>
 						<th>Action</th>
 					</tr>
 				</thead>
 				<tbody>
 					<% for(var q of query){
-						if(q.status == 'Open'){ %>
+						if(q.status == 'raw'){ %>
 					<tr>
 							<td data-order="<%= formatDate(q.created_at)[1]  %>"> <%= formatDate(q.created_at)[0]  %></td>
-							<td><%= q.query %></td>
-							<td><%= q.user.first_name %> <%= q.user.last_name %></td>
+							<td><%= q.name %></td>
+							<td><%= q.message %></td>
+							<td><%= q.note %></td>
 							<td><a href="/inquiry/view/<%= q.id %>" class="btn btn-primary">view</a></td>
 					</tr>
 					<% } } %>
@@ -90,8 +92,9 @@ function formatDate(date) {
 				<thead class="thead-dark">
 					<tr>
 						<th>Date</th>
+						<th>Client</th>
 						<th>Query</th>
-						<th>By</th>
+						<th>Note</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -100,8 +103,9 @@ function formatDate(date) {
 						if(q.status == 'Pending'){ %>
 					<tr>
 							<td data-order="<%= formatDate(q.created_at)[1]  %>"> <%= formatDate(q.created_at)[0]  %></td>
-							<td><%= q.query %></td>
-							<td><%= q.user.first_name %> <%= q.user.last_name %></td>
+							<td><%= q.name %> </td>
+							<td><%= q.message %></td>
+							<td><%= q.note %></td>
 							<td><a href="/inquiry/view/<%= q.id %>" class="btn btn-primary">view</a></td>
 					</tr>
 					<% } } %>
@@ -113,8 +117,9 @@ function formatDate(date) {
 				<thead class="thead-dark">
 					<tr>
 						<th>Date</th>
+						<th>Client</th>
 						<th>Query</th>
-						<th>By</th>
+						<th>Note</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -123,8 +128,9 @@ function formatDate(date) {
 						if(q.status == 'Closed'){ %>
 					<tr>
 							<td data-order="<%= formatDate(q.created_at)[1]  %>"> <%= formatDate(q.created_at)[0]  %></td>
-							<td><%= q.query %></td>
-							<td><%= q.user.first_name %> <%= q.user.last_name %></td>
+							<td><%= q.name %></td>
+							<td><%= q.message %></td>
+							<td><%= q.note %></td>
 							<td><a href="/inquiry/view/<%= q.id %>" class="btn btn-primary">view</a></td>
 					</tr>
 					<% } } %>
@@ -136,8 +142,9 @@ function formatDate(date) {
 				<thead class="thead-dark">
 					<tr>
 						<th>Date</th>
+						<th>Client</th>
 						<th>Query</th>
-						<th>By</th>
+						<th>Note</th>
 						<th>Action</th>
 					</tr>
 				</thead>
@@ -146,8 +153,9 @@ function formatDate(date) {
 						if(q.status == 'Cancelled'){ %>
 					<tr>
 							<td data-order="<%= formatDate(q.created_at)[1]  %>"> <%= formatDate(q.created_at)[0]  %></td>
-							<td><%= q.query %></td>
-							<td><%= q.user.first_name %> <%= q.user.last_name %></td>
+							<td><%= q.message %></td>
+							<td><%= q.name %></td>
+							<td><%= q.note %></td>
 							<td><a href="/inquiry/view/<%= q.id %>" class="btn btn-primary">view</a></td>
 					</tr>
 					<% } } %>
