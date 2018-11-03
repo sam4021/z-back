@@ -30,6 +30,10 @@ const CategorySchema = mongoose.Schema({
   visible:{
     type: Number,
     default: 1
+  },
+  footer_seo: {
+    type: String,
+    default: ''
   }
 });
 
