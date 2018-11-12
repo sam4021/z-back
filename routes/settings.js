@@ -1210,21 +1210,39 @@ router.get('/edit-brand/:id', function(req, res){
 //Update Edit Brand Post Route
 router.post('/edit-brand/:id', function(req,res){
   let brand= {};
-  brand.title = req.body.title;
-  brand.url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
+  title = req.body.title;
+  url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
   //brand.logo = req.body.logo;
-  brand.description = req.body.description;
-
+  description = req.body.description;
+  s_desc = req.body.description;
+  s_key = req.body.description;
+  
   let query = {_id:req.params.id}
 
-  Brand.update(query, brand, function(err){
-    if(err){
-      console.log(err);
-      return;
-    } else{
-      res.redirect('/settings');
-    }
-  });
+  Brand.updateMany(query,
+    { 
+      $set:{ 
+        title:title,
+        url:url,
+        description:description,
+        seo:{description: s_desc , keywords: s_key} 
+      }
+    }, { multi: true }).exec((err)=>{
+      if(err){
+        console.log(err);
+        return;
+      } else{
+        res.redirect('/settings');
+      }
+    });
+  // Brand.update(query, brand, function(err){
+  //   if(err){
+  //     console.log(err);
+  //     return;
+  //   } else{
+  //     res.redirect('/settings');
+  //   }
+  // });
 });
 
 //Get Attribute Set Form
