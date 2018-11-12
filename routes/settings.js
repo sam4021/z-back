@@ -1214,9 +1214,10 @@ router.post('/edit-brand/:id', function(req,res){
   url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
   //brand.logo = req.body.logo;
   description = req.body.description;
-  s_desc = req.body.description;
-  s_key = req.body.description;
-  
+  s_desc = req.body.seo_desc;
+  s_key = req.body.seo_key;
+  s_foot = req.body.seo_foot;
+
   let query = {_id:req.params.id}
 
   Brand.updateMany(query,
@@ -1225,7 +1226,7 @@ router.post('/edit-brand/:id', function(req,res){
         title:title,
         url:url,
         description:description,
-        seo:{description: s_desc , keywords: s_key} 
+        seo:{description: s_desc , keywords: s_key, footer: s_foot} 
       }
     }, { multi: true }).exec((err)=>{
       if(err){

@@ -27,7 +27,8 @@ const BrandSchema = mongoose.Schema({
   },
   seo:{
     keywords:{type:String, default:''},
-    description:{type:String, default:''}
+    description:{type:String, default:''},
+    footer:{type:String, default:''}
   },
 });
 
