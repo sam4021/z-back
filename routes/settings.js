@@ -1215,6 +1215,7 @@ router.post('/edit-brand/:id', function(req,res){
   //brand.logo = req.body.logo;
   description = req.body.description;
   s_desc = req.body.seo_desc;
+  s_title = req.body.seo_title;
   s_key = req.body.seo_key;
   s_foot = req.body.seo_foot;
 
@@ -1226,7 +1227,7 @@ router.post('/edit-brand/:id', function(req,res){
         title:title,
         url:url,
         description:description,
-        seo:{description: s_desc , keywords: s_key, footer: s_foot} 
+        seo:{title:s_title,description: s_desc , keywords: s_key, footer: s_foot} 
       }
     }, { multi: true }).exec((err)=>{
       if(err){
