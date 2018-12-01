@@ -54,7 +54,7 @@ app.use(session({
 //set Public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Body Parser Middleware
+// Body Parser Middleware 
 //parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
 // parse application/json
