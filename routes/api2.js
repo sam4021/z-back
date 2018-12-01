@@ -243,7 +243,7 @@ router.get('/product-featured', function(req, res, next){
   PhoneProductsFeatured.
   find({}).
   populate('product','title url price images special_price is_active deleted',Products).
-  limit(5).
+  limit(6).
   exec(function (err, featured) {
     if (err) console.log(err);
     let prodArr = [];
