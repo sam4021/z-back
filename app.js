@@ -49,7 +49,7 @@ app.use(session({
   resave: true,
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
   saveUninitialized: true
-}));
+})); 
 
 //set Public folder
 app.use(express.static(path.join(__dirname, 'public')));
