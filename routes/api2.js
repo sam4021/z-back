@@ -265,7 +265,7 @@ router.get('/product-latest', function(req, res, next){
   find({is_active: 1,deleted: 0}).
   select('title url images special_price price stock').
   sort({_id: 'descending'}).
-  limit(5).
+  limit(6).
   exec(function (err, products) {
     if (err) console.log(err);
     let prodArr = [];
