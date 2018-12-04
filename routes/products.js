@@ -575,10 +575,11 @@ router.post('/edit-seo/:id', (req, res) => {
 
      let query = {_id: req.params.id};
      let url = slugify(req.body.url,{remove: /[$*_+~.()'"!:@]/g,lower: true});
+     let title = req.body.title;
      let keywords = req.body.keywords;
      let description = req.body.description;
 
-     Products.updateMany({ _id:req.params.id },{ $set:{ url:url,seo:{description: description , keywords: keywords} }}, { multi: true }).exec();
+     Products.updateMany({ _id:req.params.id },{ $set:{ url:url,seo:{title:title,description: description , keywords: keywords} }}, { multi: true }).exec();
           res.redirect('/products/view/'+req.params.id);
 });
 
