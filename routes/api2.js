@@ -25,6 +25,7 @@ let PhoneMainSlider = require('../models/phone_main_slider');
 let PhoneMainSide = require('../models/phone_main_side');
 let PhoneMainMiddle = require('../models/phone_main_middle');
 let PhoneMainShipping = require('../models/phone_main_shipping');
+let PhoneMainCategoryFoot = require('../models/phone_main_categories_foot');
 
 let SaleWeb = require('../models/sale_web');
 let SaleWebContactSeller = require('../models/sale_web_contact_seller');
