@@ -575,6 +575,21 @@ router.get('/home', function(req, res, next){
           mainArr.push(man);
       });
     }
+    PhoneMainCategoryFoot.
+      find().
+      populate('products','title url price special_price images',Products).
+      sort({sort:'1'}).
+      exec((err, category)=>{
+        if (err) console.log(err);
+        let catArr = [];
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
+        if (category) {
+          category.forEach(man => {
+            catArr.push(man);
+          });  
+        }
       Blog.
       find({status:1}).
       sort({created_at:'-1'}).
@@ -592,10 +607,12 @@ router.get('/home', function(req, res, next){
         }
         res.send({
           category:mainArr,
-          blog:blogArr
+          blog:blogArr,
+          categoryFoot:catArr,
         });
       });
   }); 
+});
 });
 
 //get Home-Mobile
