@@ -11,7 +11,8 @@
   <table class="table table-striped table-hover table-sm data-tables">
 		<thead class="thead-dark">
 			<tr>
-	      <th scope="col">Name</th>
+				<th scope="col">Name</th>
+				<th scope="col">Sort</th>
 	      <th scope="col">Child</th>
 				<th scope="col">Keywords</th>
 				<th scope="col">Description</th>
@@ -22,7 +23,8 @@
 		<tbody>
 	    <% for(var c of category){ %>
 	    <tr>
-	        <td><%= c.title %></td>
+					<td><%= c.title %></td>
+					<td><%= c.sort %></td>
 	        <td>
 	          <% for(var c1 of category){
               if(c1.parent==c.id){%>

@@ -780,7 +780,7 @@ router.get('/all-category', function(req, res, next){
   find({}).
   where("visible").
   ne(0).
-  sort({_id: 'ascending'}).
+  sort({sort: 'ascending'}).
   exec(function (err, category) {
     if (err) console.log(err);
     let catArrP = [];
