@@ -1534,6 +1534,7 @@ router.post('/edit-category', function(req,res){
   let title = req.body.title;
   let url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
   let icon = req.body.icon;
+  let sort = req.body.sort;
   let seo_title = req.body.seo_title;
   let keywords = req.body.keywords;
   let description = req.body.description;
@@ -1545,7 +1546,7 @@ router.post('/edit-category', function(req,res){
   updateMany(
     { _id:req.body.id },
     { $set:
-      { title: title , url:url,footer_seo:footer_seo,
+      { title: title , url:url,footer_seo:footer_seo,sort:sort,
         seo:{title:seo_title,keywords:keywords,description:description},
         icon:icon
        }
