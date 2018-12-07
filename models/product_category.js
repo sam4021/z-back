@@ -16,7 +16,7 @@ const CategorySchema = mongoose.Schema({
   },
   parent: {
     type: String,
-    default: ''
+    default: 0
   },
   sort: {
     type: Number,
