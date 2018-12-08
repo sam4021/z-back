@@ -49,6 +49,7 @@ let Courier = require('../models/courier');
 let CourierLocation = require('../models/courier_location');
 let DeliveryLocation = require('../models/delivery_locations');
 let PhoneMainCategoryFoot = require('../models/phone_main_categories_foot');
+let PhoneMainFoot = require('../models/phone_main_foot');
 
 router.get('/', function(req, res, next){
   Attributes.find({},function(err, attrib){
@@ -67,6 +68,7 @@ router.get('/', function(req, res, next){
                           DeliveryLocation.find({},(err,location)=>{
                             PhoneMainShipping.find({},(err,shipping)=>{
                               PhoneMainCategoryFoot.find({},(err,mCategoryf)=>{
+                                PhoneMainFoot.find({},(err,mainf)=>{
                               res.render('pages/settings/index',{
                                 attrib: attrib,
                                 brand: brand,
@@ -84,7 +86,9 @@ router.get('/', function(req, res, next){
                                 location: location,
                                 shipping: shipping,
                                 mCategoryf: mCategoryf,
+                                mainf: mainf
                             });
+                          });
                           });
                         });
                         });
@@ -124,23 +128,65 @@ router.get('/add-main-category-foot', function(req, res){
 
 //Add Main Category Foot
 router.post('/add-main-category-foot', function(req,res){
-req.checkBody('product','Product is required').notEmpty();
+  req.checkBody('product','Product is required').notEmpty();
+  
+  req.asyncValidationErrors().then(() => {
+        let cat= new PhoneMainCategoryFoot();
+        cat.title = req.body.title;
+        cat.sort = req.body.sort;
+        cat.products = req.body.product;
+        cat.save(function(err){
+          if(err){
+            req.flash('danger','Main Category Foot not added');
+            console.log(err);
+            res.redirect('/settings/add-main-category-foot');
+            return;
+          }
+        });
+  
+      req.flash('success','Main Category Foot added');
+      res.redirect('/settings/');
+      console.log(cat);
+      console.log(link);
+    }).catch((errors) => {
+  
+        if(errors) {
+          for (var i = 0; i < errors.length; i++) {
+            var param = errors[i].param;
+            var msg = errors[i].msg;
+            req.flash('danger', errors[i].msg);
+          }
+          res.redirect('/settings/add-main-category-foot');
+          return;
+        };
+    });
+  });
+
+//Add Main Foot
+router.get('/add-main-foot', function(req, res){
+    res.render('pages/settings/main/add-main-foot',{});
+});
+
+//Add Main Foot
+router.post('/add-main-foot', function(req,res){
+req.checkBody('title','Title is required').notEmpty();
+req.checkBody('details','Details is required').notEmpty();
 
 req.asyncValidationErrors().then(() => {
-      let cat= new PhoneMainCategoryFoot();
+      let cat= new PhoneMainFoot();
       cat.title = req.body.title;
       cat.sort = req.body.sort;
-      cat.products = req.body.product;
+      cat.details = req.body.details;
       cat.save(function(err){
         if(err){
-          req.flash('danger','Main Category Foot not added');
+          req.flash('danger','Main Foot not added');
           console.log(err);
-          res.redirect('/settings/add-main-category-foot');
+          res.redirect('/settings/add-main-foot');
           return;
         }
       });
 
-    req.flash('success','Main Category Foot added');
+    req.flash('success','Main Foot added');
     res.redirect('/settings/');
     console.log(cat);
     console.log(link);
@@ -152,7 +198,7 @@ req.asyncValidationErrors().then(() => {
           var msg = errors[i].msg;
           req.flash('danger', errors[i].msg);
         }
-        res.redirect('/settings/add-main-category-foot');
+        res.redirect('/settings/add-main-foot');
         return;
       };
   });
@@ -224,6 +270,65 @@ products.splice(i, 1);
  PhoneMainCategoryFoot.updateMany({ _id:req.params.id },{ $set:{ products: products }}, { multi: true }).exec();
       res.redirect('/settings/edit-main-category-foot/'+req.params.id);
 });
+});
+
+//Edit Main Foot
+router.get('/edit-main-foot/:id', function(req, res){
+  PhoneMainFoot.
+  findById(req.params.id).
+  exec((err,pcategory)=>{
+          res.render('pages/settings/main/edit-main-foot',{
+            pcategory:pcategory
+        });
+      });
+  });
+  
+  //Edit Main Category
+  router.post('/edit-main-foot/:id', function(req,res){
+  req.checkBody('title','Title required').notEmpty();
+  req.checkBody('details','Details required').notEmpty();
+  
+  req.asyncValidationErrors().then(() => {
+        let title = req.body.title;
+        let sort = req.body.sort;
+        let details = req.body.details;
+  
+        PhoneMainFoot.updateMany({ _id:req.params.id },{
+          $set:{
+            title: title ,
+            sort: sort,
+            details: details,
+           }
+        }, { multi: true }).exec();
+  
+      req.flash('success','Main Edited');
+      res.redirect('/settings/');
+    }).catch((errors) => {
+  
+        if(errors) {
+          for (var i = 0; i < errors.length; i++) {
+            var param = errors[i].param;
+            var msg = errors[i].msg;
+            req.flash('danger', errors[i].msg);
+          }
+          res.redirect('/settings/edit-main-foot/'+req.params.id);
+          return;
+        };
+    });
+  });
+  
+  //Delete Main Category Product
+  router.get('/delete-main-foot/:id/', function(req, res){
+  PhoneMainFoot.remove({ _id:req.params.id }, function (err) {
+      if (err) {
+        req.flash('danger','Main Footer Data not deleted');
+      res.redirect('/settings/');
+      console.log(err);
+      return;
+      } else {
+        res.redirect('/settings');
+      }
+  });
 });
 
 //Add Main Shipping
