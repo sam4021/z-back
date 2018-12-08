@@ -26,6 +26,7 @@ let PhoneMainSide = require('../models/phone_main_side');
 let PhoneMainMiddle = require('../models/phone_main_middle');
 let PhoneMainShipping = require('../models/phone_main_shipping');
 let PhoneMainCategoryFoot = require('../models/phone_main_categories_foot');
+let PhoneMainFoot = require('../models/phone_main_foot');
 
 let SaleWeb = require('../models/sale_web');
 let SaleWebContactSeller = require('../models/sale_web_contact_seller');
@@ -606,11 +607,27 @@ router.get('/home', function(req, res, next){
               blogArr.push(blo);
           }); 
         }
+        PhoneMainFoot.
+        find({}).
+        sort({sort:'-1'}).
+        exec((err, foot)=>{
+          if (err) console.log(err);
+          let footArr = [];
+          if (err) {
+            return res.status(500).send({message: err.message});
+          }
+          if (foot) {
+            foot.forEach(f => {
+                footArr.push(f);
+            }); 
+          }
         res.send({
           category:mainArr,
           blog:blogArr,
           categoryFoot:catArr,
+          mainFoot:footArr
         });
+      });
       });
   }); 
 });
