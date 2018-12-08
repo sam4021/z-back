@@ -609,7 +609,7 @@ router.get('/home', function(req, res, next){
         }
         PhoneMainFoot.
         find({}).
-        sort({sort:'-1'}).
+        sort({sort:'1'}).
         exec((err, foot)=>{
           if (err) console.log(err);
           let footArr = [];
