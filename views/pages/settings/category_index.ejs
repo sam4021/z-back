@@ -41,9 +41,13 @@
 						<input type="hidden" name="category-status-<%= c.id %>" value="<% if(c.visible==0){ %> 1 <% } else{ %> 0 <% } %>">
 					</td>
 	        <td class="actions">
+							<div class="btn-group" role="group" aria-label="Basic example">
+									<a href="/settings/edit-category/<%= c.id %>" class="btn btn-success" onclick="editCateg('')">Edit</a>
+									<a href="/settings/edit-category-img/<%= c.id %>" class="btn btn-primary">Edit Image</a>
+									<a href="/settings/delete-cat/<%= c.id %>" onclick="return confirm('Are you sure you want to delete this Category?');" class="btn btn-danger">Delete</a>
+							</div>
 						<!-- <a href="#" class="btn btn-success" onclick="editCateg('<%= c.id %>')">Edit</a> -->
-						<a href="/settings/edit-category/<%= c.id %>" class="btn btn-success" onclick="editCateg('')">Edit</a>
-            <a href="/settings/delete-cat/<%= c.id %>" onclick="return confirm('Are you sure you want to delete this Category?');" class="btn btn-danger">Delete</a>
+						
 	        </td>
 	    </tr>
 	    <% } %>

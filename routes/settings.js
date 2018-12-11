@@ -1673,6 +1673,38 @@ router.post('/edit-category', function(req,res){
   // });
 });
 
+router.get('/edit-category-img/:id',function(req, res){
+  let query = {_id:req.params.id} 
+
+  Category.findById(req.params.id, function(err, category){
+    res.render('pages/settings/edit-category-img',{
+      category: category
+    });
+  });
+});
+
+router.post('/edit-category-img/:id', function(req,res){
+    cloudinary.uploader.upload_stream((cloud_img) => {
+      let img =  cloud_img.secure_url;
+  
+      Category.updateMany({ _id:req.params.id },{
+        $set:{
+          banner:{
+            img:img
+          }
+         }
+      }, { multi: true }).exec();
+      if(req.body.main_img){
+        var image = /[^/]*$/.exec(req.body.main_img)[0];
+        var publicId = image.replace(/\..+$/, '');
+        cloudinary.v2.uploader.destroy(publicId, function(error, result){console.log(result, error)});
+      }
+  
+    req.flash('success','Category Banner Edited');
+    res.redirect('/settings/');
+  }).end(req.files.main_image.data);
+});
+
 //Update Category Visible Status
 router.post('/category_status/:id', (req, res) => {
 

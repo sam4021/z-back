@@ -1,0 +1,45 @@
+<% include ../../partials/header %>
+<div class="page-header">
+	<div class="page-title">
+    Edit Category Banner
+	</div>
+	<div class="page-actions">
+      
+	</div>
+</div>
+<div class="page-content">
+  <form action="/settings/edit-category-img/<%= category.id %>" method="post" autocomplete="off" enctype="multipart/form-data">
+    <div class="row">
+     <div class="col-md-6">
+       <div class="form-group">
+         <label class="control-label col-md-12 col-sm-12 col-xs-12">Image</label>
+         <div class="col-md-12 col-sm-12 col-xs-12">
+           <input type="file" name="main_image" class="form-control">
+					 <% if(category.banner.img !=''){ %>
+            <img src="<%= category.banner.img %>" width="100px">
+            <input type="hidden" name="main_img" value="<%= category.banner.img %>">
+					 <% } %>
+         </div>
+       </div>
+     </div>
+     <!-- <div class="col-md-6">
+            <label class="control-label col-md-12 col-sm-12 col-xs-12">Link</label>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <input type="text" name="link" class="form-control" value="<%= category.banner.link %>">
+            </div>
+     </div>
+     <div class="col-md-6">
+            <label class="control-label col-md-12 col-sm-12 col-xs-12">Alt</label>
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <input type="text" name="alt" class="form-control" value="<%= category.banner.alt %>">
+            </div>
+     </div> -->
+		 <div class="col-md-12">
+			 <div class="form-actions text-left">
+ 				<button type="submit" class="btn btn-primary">Submit</button>
+ 			</div>
+		 </div>
+    </div>
+ </form>
+</div>
+<% include ../../partials/footer %>

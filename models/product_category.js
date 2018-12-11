@@ -38,7 +38,12 @@ const CategorySchema = mongoose.Schema({
   footer_seo: {
     type: String,
     default: ''
-  }
+  },
+  banner: {
+    img:{type: String,required: true},
+    link:{type: String,required: true},
+    alt:{type: String,required: true}
+  },
 });
 
 const Category = module.exports = mongoose.model('product_category', CategorySchema);
