@@ -413,15 +413,18 @@ router.post('/edit-main-shipping/:id', function(req,res){
 });
 
 //Add Main Category
-router.get('/offers', function(req, res){
+router.get('/offers/:id', function(req, res){
   PhoneMainOffer.
-  find({}).
-  populate('product','title url price images special_price is_active deleted',Products).
+  findById(req.params.id).
+  populate('products','title url price images special_price is_active deleted',Products).
   exec((err,offer)=>{
+    Products.find({is_active:1},(err,products)=>{
         res.render('pages/settings/offer/index',{
-          offer: offer
+          offer: offer,
+          products: products
       });
     });
+  });
 });
 
 //Add Main Category
@@ -437,9 +440,9 @@ router.get('/add-main-offer', function(req, res){
 router.post('/add-main-offer', function(req,res){
     cloudinary.uploader.upload_stream((cloud_img) => {
         let offer= new PhoneMainOffer();
-        offer.image.img = cloud_img.secure_url;
+        offer.image= cloud_img.secure_url;
         offer.products = req.body.product;
-        cat.save(function(err){
+        offer.save(function(err){
           if(err){
             req.flash('danger','Main Offer not added');
             console.log(err);
@@ -451,6 +454,53 @@ router.post('/add-main-offer', function(req,res){
         });
     }).end(req.files.main_image.data);
 });  
+
+//Edit Main Category
+router.post('/edit-main-offer/:id', function(req,res){
+        let products = req.body.product;
+         PhoneMainOffer.findById(req.params.id,(err,ph)=>{
+          var prods = ph.products;
+          if (req.body.product) {
+            if (Array.isArray(req.body.product)) {
+              products.forEach(element => {
+                prods.push(element);
+              }); 
+            } else {
+              prods.push(products);
+            }
+            
+          }
+          PhoneMainOffer.updateMany({ _id:req.params.id },{
+          $set:{
+            products:prods
+           }
+        }, { multi: true }).exec();
+ 
+      req.flash('success','Main Offer Edited');
+      res.redirect('/settings/');
+       });
+      
+});
+
+router.post('/edit-main-offer-img/:id', function(req,res){
+      cloudinary.uploader.upload_stream((cloud_img) => {
+        //let category = req.body.category;
+        let img =  cloud_img.secure_url;
+        PhoneMainOffer.updateMany({ _id:req.params.id },{
+          $set:{
+            image:{img:img}
+           }
+        }, { multi: true }).exec();
+        if(req.body.main_img){
+          var image = /[^/]*$/.exec(req.body.main_img)[0];
+          var publicId = image.replace(/\..+$/, '');
+          cloudinary.v2.uploader.destroy(publicId, function(error, result){console.log(result, error)});
+        }
+
+      req.flash('success','Main Offer Edited');
+      res.redirect('/settings/');
+    }).end(req.files.main_image.data);
+});
 
 //Add Main Category
 router.get('/add-main-category', function(req, res){
