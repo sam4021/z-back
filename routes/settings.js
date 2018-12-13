@@ -39,6 +39,7 @@ let Products = require('../models/products');
 let AttribEntities = require('../models/product_attributesEntities');
 let Category = require('../models/product_category');
 let PhoneMainCategory = require('../models/phone_main_category');
+let PhoneMainOffer = require('../models/phone_main_offers');
 let PhoneMainAds = require('../models/phone_main_ads');
 let PhoneMainSlider = require('../models/phone_main_slider');
 let PhoneMainSide = require('../models/phone_main_side');
@@ -69,6 +70,7 @@ router.get('/', function(req, res, next){
                             PhoneMainShipping.find({},(err,shipping)=>{
                               PhoneMainCategoryFoot.find({},(err,mCategoryf)=>{
                                 PhoneMainFoot.find({},(err,mainf)=>{
+                                  PhoneMainOffer.find({},(err,offer)=>{
                               res.render('pages/settings/index',{
                                 attrib: attrib,
                                 brand: brand,
@@ -86,8 +88,10 @@ router.get('/', function(req, res, next){
                                 location: location,
                                 shipping: shipping,
                                 mCategoryf: mCategoryf,
-                                mainf: mainf
+                                mainf: mainf,
+                                offer: offer
                             });
+                          });
                           });
                           });
                         });
@@ -407,6 +411,46 @@ router.post('/edit-main-shipping/:id', function(req,res){
         };
     });
 });
+
+//Add Main Category
+router.get('/offers', function(req, res){
+  PhoneMainOffer.
+  find({}).
+  populate('product','title url price images special_price is_active deleted',Products).
+  exec((err,offer)=>{
+        res.render('pages/settings/offer/index',{
+          offer: offer
+      });
+    });
+});
+
+//Add Main Category
+router.get('/add-main-offer', function(req, res){
+  Products.find({is_active:1},(err,products)=>{
+      res.render('pages/settings/offer/add-main-offer',{
+        products: products
+    });
+  });
+});
+
+//Add Main Offer
+router.post('/add-main-offer', function(req,res){
+    cloudinary.uploader.upload_stream((cloud_img) => {
+        let offer= new PhoneMainOffer();
+        offer.image.img = cloud_img.secure_url;
+        offer.products = req.body.product;
+        cat.save(function(err){
+          if(err){
+            req.flash('danger','Main Offer not added');
+            console.log(err);
+            return;
+          } else{
+            req.flash('success','Main Offer added');
+            res.redirect('/settings/');
+          }
+        });
+    }).end(req.files.main_image.data);
+});  
 
 //Add Main Category
 router.get('/add-main-category', function(req, res){
