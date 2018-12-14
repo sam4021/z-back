@@ -57,7 +57,7 @@ balance=GTotal-fAmount; %>
   </div>
   <br>
 	<div class="page-actions">
-    <select class="custom-select" name="sale-status" id="sale-status">
+    <select class="form-control" name="sale-status" id="sale-status" style="max-width: 120px;">
       <option value="Open" <% if(sale.status=='Open'){ %> selected <% } %>>Open</option>
       <option value="Shipped" <% if(sale.status=='Shipped'){ %> selected <% } %>>Shipped</option>
       <option value="Pending" <% if(sale.status=='Pending'){ %> selected <% } %>>Pending</option>
@@ -67,7 +67,7 @@ balance=GTotal-fAmount; %>
     <% if(balance==0){ %>
       <button class="btn btn-outline-success pull-right" type="button" data-toggle="modal" data-target="#salePdf-Modal">Cash Sale</button>
     <% }else{ %>
-      <button class="btn btn-outline-primary pull-right" type="button" data-toggle="modal" data-target="#invoice-Modal">Invoice</button>
+      <!-- <button class="btn btn-outline-primary pull-right" type="button" data-toggle="modal" data-target="#invoice-Modal">Invoice</button> -->
     <% } %>
     <div id="total-cont">
       <button type="button" class="btn btn-<% if(balance==0){ %>success<% } else { %>primary<% } %>">
@@ -270,7 +270,7 @@ balance=GTotal-fAmount; %>
         <div class="pdf-container">
           <div class="header">
             <div class="logo">
-              <img src="https://www.static.phonestablets.co.ke/img/zuri/logo-placeholder.jpg" alt="logo" class="logo">
+              <img src="/assets/img/logo.jpg" alt="logo" class="logo">
             </div>
             <div class="info">
               <p>Zuricart Kenya</p>
@@ -295,7 +295,7 @@ balance=GTotal-fAmount; %>
                   <p><%= sale.client.email %></p>
                 </div>
                 <div class="invoice_info">
-                  <p>Invoice No. <span><%= sale._id %></span></p>
+                  <!-- <p>Invoice No. <span><%= sale._id %></span></p> -->
                   <p>Date <span><%= today %></span></p>
                 </div>
                 <div class="clearfix"></div>
@@ -383,7 +383,7 @@ balance=GTotal-fAmount; %>
         <div class="pdf-container">
           <div class="header">
             <div class="logo">
-              <img src="https://www.static.phonestablets.co.ke/img/zuri/logo-placeholder.jpg" alt="logo" class="logo">
+              <img src="/assets/img/logo.jpg" alt="logo" class="logo">
             </div>
             <div class="info">
               <p>Zuricart Kenya</p>
@@ -408,7 +408,7 @@ balance=GTotal-fAmount; %>
                   <p><%= sale.client.email %></p>
                 </div>
                 <div class="invoice_info">
-                  <p>Invoice No. <span><%= sale._id %></span></p>
+                  <!-- <p>Invoice No. <span><%= sale._id %></span></p> -->
                   <p>Date <span><%= today %></span></p>
                 </div>
                 <div class="clearfix"></div>
@@ -428,7 +428,7 @@ balance=GTotal-fAmount; %>
                      gTotal=gTotal+(sprod.qty*sprod.price);%>
                 <tr>
                     
-                      <td></td>
+                      <td style="width:50%;"><%= sprod.product.title %></td>
                     
                   <td><%= sprod.price %></td>
                   <td>

@@ -18,7 +18,7 @@ text-transform: uppercase;
 font-weight: bold;
 line-height: 12px;
 font-size: 20px;
-color: #06a099;
+color: #345e88;
 margin-bottom: 10px;
 width: 100%;
 text-align: center;
@@ -51,7 +51,7 @@ font-size: 12px;
 #user .title{
 float: left;
 font-weight: 700;
-color: #30a099;
+color: #345e88;
 }
 #user .name{
 float: left;
@@ -122,7 +122,7 @@ font-size: 12px;
         font-weight: bold;
         line-height: 12px;
         font-size: 20px;
-        color: #06a099;
+        color: #345e88;
         margin-bottom: 10px;
         width: 100%;
         text-align: center;
@@ -155,7 +155,7 @@ font-size: 12px;
         #user .title{
         float: left;
         font-weight: 700;
-        color: #30a099;
+        color: #345e88;
         }
         #user .name{
         float: left;
