@@ -244,7 +244,7 @@ router.get('/products_offer_extra',(req, res, next)=>{
 router.get('/product-featured', function(req, res, next){
   PhoneProductsFeatured.
   find({}).
-  populate('product','title url price images special_price is_active deleted',Products).
+  populate('product','title url price images special_price is_active deleted stock',Products).
   limit(6).
   exec(function (err, featured) {
     if (err) console.log(err);
