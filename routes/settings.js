@@ -477,18 +477,16 @@ router.post('/edit-main-offer/:id', function(req,res){
         }, { multi: true }).exec();
  
       req.flash('success','Main Offer Edited');
-      res.redirect('/settings/');
+      res.redirect('/settings/offers/'+req.params.id);
        });
-      
 });
 
 router.post('/edit-main-offer-img/:id', function(req,res){
       cloudinary.uploader.upload_stream((cloud_img) => {
-        //let category = req.body.category;
         let img =  cloud_img.secure_url;
         PhoneMainOffer.updateMany({ _id:req.params.id },{
           $set:{
-            image:{img:img}
+            image:img
            }
         }, { multi: true }).exec();
         if(req.body.main_img){
@@ -498,8 +496,27 @@ router.post('/edit-main-offer-img/:id', function(req,res){
         }
 
       req.flash('success','Main Offer Edited');
-      res.redirect('/settings/');
+      res.redirect('/settings/offers/'+req.params.id);
     }).end(req.files.main_image.data);
+});
+
+//Delete Main Offer Product
+router.get('/delete-main-offer-prod/:id/:prod', function(req, res){
+  PhoneMainOffer.findById(req.params.id,(err,offer)=>{
+    if(err){
+      req.flash('danger','Product not deleted');
+      res.redirect('/settings/offers/'+req.params.id);
+      console.log(err);
+      return;
+    }
+    let products = offer.products;
+    var i = products.indexOf(req.params.prod);
+if(i != -1) {
+	products.splice(i, 1);
+}
+   PhoneMainOffer.updateMany({ _id:req.params.id },{ $set:{ products: products }}, { multi: true }).exec();
+        res.redirect('/settings/offers/'+req.params.id);
+  });
 });
 
 //Add Main Category
