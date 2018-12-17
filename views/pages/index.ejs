@@ -75,18 +75,7 @@ var today = new Date(today.toDateString());
         </div>
         <div class="col-md-4 bg-info">
           <% var saleC =0;
-            for(var s of sale){
-              var eDate = new Date(s.updated_at);
-              var eDate2 = new Date(eDate.toDateString());
-              if(s.status == 'Closed' && today.getTime() == eDate2.getTime()){
-                for(var sp of sproduct){
-                  if(s.id == sp.sale){
-                    for(var i of imei){
-                      if(i.sale == sp.id){ %>
-                      <% saleC = sp.price + saleC %>
-                    <% } }
-                  } } }
-            }
+            
            %>
            <div class="home-pay">
              <div class="top">

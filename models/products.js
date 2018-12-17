@@ -46,7 +46,7 @@ const ProductsSchema = mongoose.Schema({
     short:{type:String, default:''},
     full:{type:String, default:''}
   },
-  images:{
+  images:{ 
     type:Array,
     default:[]
   },
