@@ -445,11 +445,15 @@ router.post('/edit-main-seo/:id', function(req,res){
   let title = req.body.title;
   let keywords = req.body.keywords;
   let description = req.body.description;
+  let seo_suffix = req.body.seo_suffix;
+  let description = req.body.description;
   PhoneMainSeo.updateMany({ _id:req.params.id },{
     $set:{
       title:title,
       keywords:keywords,
-      description:description
+      description:description,
+      seo_suffix:seo_suffix,
+      seo_prefix: seo_prefix
      }
   }, { multi: true }).exec();
 

@@ -6,9 +6,26 @@ const timestamps = require('mongoose-timestamp');
 
 //Phone Main Seo Schema
 const PhoneMainSeoSchema = mongoose.Schema({
-    title:{type:String, default:''},
-    keywords:{type:String, default:''},
-    description:{type:String, default:''}
+    title:{
+        type:String, 
+        default:''
+    },
+    keywords:{
+        type:String, 
+        default:''
+    },
+    description:{
+        type:String, 
+        default:''
+    },
+    seo_prefix:{
+        type:String, 
+        default:''
+    },
+    seo_suffix:{
+        type:String, 
+        default:''
+    }
 });
 
 PhoneMainSeoSchema.plugin(timestamps,  {
