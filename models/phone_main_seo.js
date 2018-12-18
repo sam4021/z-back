@@ -13,7 +13,7 @@ const PhoneMainSeoSchema = mongoose.Schema({
     keywords:{
         type:String, 
         default:''
-    },
+    }, 
     description:{
         type:String, 
         default:''
