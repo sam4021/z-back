@@ -6,12 +6,38 @@
 	<div class="page-actions">
         <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#addModal">Add Product</button>
         <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#imageModal">Image</button>
+        <button type="button" class="btn btn-outline-warning btn-sm" data-toggle="modal" data-target="#seoModal">SEO</button>
         <!-- <a class="btn btn-primary btn-sm" href="/settings/edit-main-offer/<%= offer.id %>">Edit</a> -->
 	</div>
 </div>
 <div class="page-content">
     <div class="row">
-     <div class="col-md-6">
+     <div class="col-md-6"><div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-12 col-sm-12 col-xs-12">Title</label>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <input type="text" name="title" class="form-control" value="<%= offer.seo.title %>" >
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-12 col-sm-12 col-xs-12">Keywords</label>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <textarea name="keywords" class="form-control" id="keywords"><%= offer.seo.keywords %></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-md-12 col-sm-12 col-xs-12">Description</label>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <textarea name="description" class="form-control" id="description"><%= offer.seo.description %></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
        <div class="form-group">
          <label class="control-label col-md-12 col-sm-12 col-xs-12">Main Image</label>
          <div class="col-md-12 col-sm-12 col-xs-12">
@@ -137,6 +163,53 @@
                                 </div>
                             </div>
                                     <hr>
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="seoModal" tabindex="-1" role="dialog" aria-labelledby="seo-modal-label" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="seo-modal-label">SEO</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/settings/edit-main-offer-seo/<%= offer.id %>" method="post" autocomplete="off" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12">Title</label>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <input type="text" name="title" class="form-control" value="<%= offer.seo.title %>" >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12">Keywords</label>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <textarea name="keywords" class="form-control" id="keywords"><%= offer.seo.keywords %></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label class="control-label col-md-12 col-sm-12 col-xs-12">Description</label>
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <textarea name="description" class="form-control" id="description"><%= offer.seo.description %></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
                             <div class="form-actions">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </div>

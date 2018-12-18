@@ -51,6 +51,7 @@ let CourierLocation = require('../models/courier_location');
 let DeliveryLocation = require('../models/delivery_locations');
 let PhoneMainCategoryFoot = require('../models/phone_main_categories_foot');
 let PhoneMainFoot = require('../models/phone_main_foot');
+let PhoneMainSeo = require('../models/phone_main_seo');
 
 router.get('/', function(req, res, next){
   Attributes.find({},function(err, attrib){
@@ -428,6 +429,35 @@ router.get('/offers/:id', function(req, res){
 });
 
 //Add Main Category
+router.get('/home-page/:id', function(req, res){
+  PhoneMainSeo.
+  findById(req.params.id).
+  populate('products','title url price images special_price is_active deleted',Products).
+  exec((err,seo)=>{
+        res.render('pages/settings/home/index',{
+          seo: seo
+      });
+  });
+});
+
+//Edit Main Category
+router.post('/edit-main-seo/:id', function(req,res){
+  let title = req.body.title;
+  let keywords = req.body.keywords;
+  let description = req.body.description;
+  PhoneMainSeo.updateMany({ _id:req.params.id },{
+    $set:{
+      title:title,
+      keywords:keywords,
+      description:description
+     }
+  }, { multi: true }).exec();
+
+req.flash('success','Main Seo Edited');
+res.redirect('/settings/home-page/'+req.params.id);
+});
+
+//Add Main Category
 router.get('/add-main-offer', function(req, res){
   Products.find({is_active:1},(err,products)=>{
       res.render('pages/settings/offer/add-main-offer',{
@@ -479,6 +509,21 @@ router.post('/edit-main-offer/:id', function(req,res){
       req.flash('success','Main Offer Edited');
       res.redirect('/settings/offers/'+req.params.id);
        });
+});
+
+//Edit Main Category
+router.post('/edit-main-offer-seo/:id', function(req,res){
+  let title = req.body.title;
+  let keywords = req.body.keywords;
+  let description = req.body.description;
+    PhoneMainOffer.updateMany({ _id:req.params.id },{
+    $set:{
+      seo:{title:title,description: description , keywords: keywords} 
+     }
+  }, { multi: true }).exec();
+
+req.flash('success','Main Offer Edited');
+res.redirect('/settings/offers/'+req.params.id);
 });
 
 router.post('/edit-main-offer-img/:id', function(req,res){

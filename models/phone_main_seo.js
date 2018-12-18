@@ -4,26 +4,16 @@ const bcrypt = require('bcryptjs');
 const config = require ('../config/database');
 const timestamps = require('mongoose-timestamp');
 
-//Phone Main Offers Schema
-const PhoneMainOfferSchema = mongoose.Schema({
-  image: {
-      type: String,
-      required: true
-  },
-  products: [{
-      type: ObjectId,
-       ref: 'Products'
-  }],
-  seo:{
+//Phone Main Seo Schema
+const PhoneMainSeoSchema = mongoose.Schema({
     title:{type:String, default:''},
     keywords:{type:String, default:''},
     description:{type:String, default:''}
-  }
 });
 
-PhoneMainOfferSchema.plugin(timestamps,  {
+PhoneMainSeoSchema.plugin(timestamps,  {
   createdAt: 'created_at',
   updatedAt: 'updated_at'
 });
 
-const PhoneMainOffer = module.exports = mongoose.model('phone_main_offers', PhoneMainOfferSchema);
+const PhoneMainSeo = module.exports = mongoose.model('phone_main_seo', PhoneMainSeoSchema);
