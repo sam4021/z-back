@@ -683,6 +683,24 @@ function edit_Cbranch(id) {
 	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 	xhr.send();
 }
+function edit_tags(id) {
+	var xhr;
+  	if (window.XMLHttpRequest) {xhr = new XMLHttpRequest();}
+	else if (window.ActiveXObject) {xhr = new ActiveXObject("Msxml2.XMLHTTP");}
+	else {throw new Error("Ajax is not supported by this browser");}
+	xhr.onreadystatechange = function () {
+			if (xhr.readyState === 4) {
+					if (xhr.status == 200 && xhr.status < 300) {
+            jQuery.noConflict();
+						$('#editTags').modal('show');
+							document.getElementById('edit-tag-body').innerHTML = xhr.responseText;
+					}
+			}
+	}
+	xhr.open('GET', '/settings/get_tag/'+id);
+	xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+	xhr.send();
+}
 function edit_location(id) {
 	var xhr;
   	if (window.XMLHttpRequest) {xhr = new XMLHttpRequest();}

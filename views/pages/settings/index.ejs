@@ -210,6 +210,33 @@
 			        </ul>
 			  </div>
 			</div>
+			<div class="col-md-6 col-sm-6 col-xs-12">
+				<div class="border-radius">
+						<h4 class="h4-header">Product Tags</h4>
+						<button type="button" class="btn btn-success pull-right" data-toggle="modal" data-target="#addTags" style="margin:0px 5px;">Add</button>
+						<div class="clearfix"></div>
+						<table class="table table-striped table-hover table-sm data-tables">
+							<thead class="thead-dark">
+								<tr>
+									<th scope="col">Tags</th>
+									<th scope="col" class="actions">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<% for(var t of tags){ %>
+									<tr>
+										<td>
+											<%= t.title %>
+										</td>
+										<td>
+											<button type="button" class="btn btn-info" onclick="edit_tags('<%= t.id %>')">Edit</button>
+										</td>
+									</tr>
+								<% } %>
+							</tbody>
+						</table>
+					</div>
+			</div>
 		</div>
 	</div>
 	<div class="tab-pane fade" id="FrontEnd" role="tabpanel" aria-labelledby="FrontEnd-tab">
@@ -954,6 +981,48 @@
             </div>
           </div>
         </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="addTags" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">Add Tags</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+				<form action="/settings/add-tags" method="post" autocomplete="off">
+					<div class="row">
+					<div class="col-md-12">
+						 <div class="form-group">
+							 <label class="control-label col-md-12 col-sm-12 col-xs-12">Title</label>
+							 <div class="col-md-12 col-sm-12 col-xs-12">
+								 <input type="text" name="title" class="form-control">
+							 </div>
+						 </div>
+					 </div>
+					<div class="col-md-12">
+						<div class="form-actions">
+							 <button type="submit" class="btn btn-primary">Submit</button>
+						 </div>
+					</div>
+					</div>
+			 </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editTags" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">Edit Tag</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div id="edit-tag-body" class="modal-body">
+
       </div>
     </div>
   </div>

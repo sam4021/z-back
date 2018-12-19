@@ -52,6 +52,7 @@ let DeliveryLocation = require('../models/delivery_locations');
 let PhoneMainCategoryFoot = require('../models/phone_main_categories_foot');
 let PhoneMainFoot = require('../models/phone_main_foot');
 let PhoneMainSeo = require('../models/phone_main_seo');
+let Tags = require('../models/product_tags');
 
 router.get('/', function(req, res, next){
   Attributes.find({},function(err, attrib){
@@ -72,6 +73,7 @@ router.get('/', function(req, res, next){
                               PhoneMainCategoryFoot.find({},(err,mCategoryf)=>{
                                 PhoneMainFoot.find({},(err,mainf)=>{
                                   PhoneMainOffer.find({},(err,offer)=>{
+                                    Tags.find({},(err,tags)=>{
                               res.render('pages/settings/index',{
                                 attrib: attrib,
                                 brand: brand,
@@ -90,8 +92,10 @@ router.get('/', function(req, res, next){
                                 shipping: shipping,
                                 mCategoryf: mCategoryf,
                                 mainf: mainf,
-                                offer: offer
+                                offer: offer,
+                                tags: tags
                             });
+                          });
                           });
                           });
                           });
@@ -110,6 +114,79 @@ router.get('/', function(req, res, next){
       });
     });
   });
+});
+
+//Add Tags
+router.post('/add-tags', function(req,res){
+  req.checkBody('title','Tag Title is required').notEmpty();
+  req.asyncValidationErrors().then(() => {
+        let tag= new Tags();
+        tag.title = req.body.title;
+        tag.url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
+        tag.save(function(err){
+          if(err){
+            req.flash('danger','Tag not added');
+            console.log(err);
+            return;
+          }
+        });
+
+      req.flash('success','Tag added');
+      res.redirect('/settings/');
+    }).catch((errors) => {
+
+        if(errors) {
+          for (var i = 0; i < errors.length; i++) {
+            var param = errors[i].param;
+            var msg = errors[i].msg;
+            req.flash('danger', errors[i].msg);
+          }
+          res.redirect('/settings/add-tags');
+          return;
+        };
+    });
+});
+
+//Load Tag Info Edit
+router.get('/get_tag/:id', function(req, res){
+  Tags.findById(req.params.id,(err,tag)=>{
+    res.render('pages/settings/edit-tag',{
+      tag: tag
+    });
+  });
+});
+
+
+//Edit Main Shipping
+router.post('/edit-tags/:id', function(req,res){
+  req.checkBody('title','Title is required').notEmpty();
+
+  req.asyncValidationErrors().then(() => {
+        let title = req.body.title;
+        let url = slugify(req.body.title,{remove: /[$*_+~.()'"!:@]/g,lower: true});
+
+        Tags.updateMany({ _id:req.params.id },{
+          $set:{
+            title: title,
+            url: url
+           }
+        }, { multi: true }).exec();
+
+      req.flash('success','Tags Edited');
+      res.redirect('/settings/');
+    }).catch((errors) => {
+
+        if(errors) {
+          for (var i = 0; i < errors.length; i++) {
+            var param = errors[i].param;
+            var msg = errors[i].msg;
+            req.flash('danger', errors[i].msg);
+            console.log(errors[i].msg);
+          }
+          //res.redirect('/settings/edit-main-shipping/'+req.params.id);
+          return;
+        };
+    });
 });
 
 //Add Main Shipping

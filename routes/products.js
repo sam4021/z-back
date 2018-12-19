@@ -14,6 +14,7 @@ let Attributes = require('../models/product_attributes');
 let Entities = require('../models/product_entities');
 let Brand = require('../models/product_brand');
 let AttribEntities = require('../models/product_attributesEntities');
+let Tags = require('../models/product_tags');
 
 router.get('/', function(req, res, next){
   Products.
@@ -184,6 +185,7 @@ router.get('/view/:id', function(req, res, next){
                 Entities.find({},(err,entity)=>{
                   AttribEntities.find({},(err,a_entity)=>{
                     Products.find({}, function(err, allprod){
+                      Tags.find({}, function(err, tags){
                         res.render('pages/products/view',{
                           products: products,
                           pvendor:pvendor,
@@ -192,8 +194,10 @@ router.get('/view/:id', function(req, res, next){
                           allcategory: allcategory,
                           entity: entity,
                           a_entity: a_entity,
-                          allprod:allprod
+                          allprod:allprod,
+                          tags: tags
                   });
+                });
                 });
               });
             });
@@ -202,6 +206,43 @@ router.get('/view/:id', function(req, res, next){
       });
     });
   });
+});
+
+//Update Product info Tags
+router.post('/add-tag/:id', (req, res) => {
+  Products.findById(req.params.id, function(err, product){
+    let query = {_id: req.params.id};
+    let tag = req.body.tag;
+    let newTag = product.tags;
+    if (newTag == '') {
+      newTag = tag;
+    } else {
+      newTag.push(tag);
+    }
+    Products.update(query,{ tags: newTag}).exec();
+    res.redirect('/products/view/'+req.params.id);
+  });
+});
+
+//Remove Product Tags
+router.get('/delete-tag/:id/:tag', (req, res) => {
+  Products.findById(req.params.id, function(err, product){
+    let query = {_id: req.params.id};
+    let tag = req.params.tag;
+
+    let oldTags = product.tags;
+    var pos = oldTags.indexOf(tag);
+    oldTags.splice(pos, 1);
+    Products.update(query,{ tags: oldTags}).exec();
+    res.redirect('/products/view/'+req.params.id);
+  });
+});
+
+//Remove All Product Tags
+router.get('/delete-tag-all/:id', (req, res) => {
+    let query = {_id: req.params.id};
+    Products.update(query,{ tags: ''}).exec();
+    res.redirect('/products/view/'+req.params.id);
 });
 
 //Add Products Vendor

@@ -50,6 +50,14 @@ const ProductsSchema = mongoose.Schema({
     type:Array,
     default:[]
   },
+  image_front_small:{
+    type:String,
+    default:''
+  },
+  image_front_big:{
+    type:String,
+    default:''
+  },
   seo:{
     title:{type:String, default:''},
     keywords:{type:String, default:''},
@@ -58,6 +66,10 @@ const ProductsSchema = mongoose.Schema({
   deleted: {
     type: Number,
     default: 0
+  },
+  tags:{
+    type: Array,
+    default: ''
   },
   stock:{
     type: Number,
