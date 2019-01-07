@@ -889,7 +889,7 @@ router.get('/category-top', function(req, res, next){
 });
 
 //Get Category Brand
-router.get('/brand/:id', function(req, res, next){console.log(req.params.id);
+router.get('/brand/:id', function(req, res, next){
   Brand.
   findOne({url:req.params.id}).
   exec((err, brand)=>{
