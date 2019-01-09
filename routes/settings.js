@@ -1799,14 +1799,14 @@ router.post('/edit-attribute-set/:id', function(req,res){
       errors: errors
     });
   } else {
-      for (var i of req.body.entity) {
-        let Attrib= new AttribEntities();
-        Attrib.attributes = req.params.id;
-        Attrib.entities = i;
-        Attrib.save();
-    }
+    //   for (var i of req.body.entity) {
+    //     let Attrib= new AttribEntities();
+    //     Attrib.attributes = req.params.id;
+    //     Attrib.entities = i;
+    //     Attrib.save();
+    // }
 
-      req.flash('success','Attribute Set added');
+      req.flash('success','Attribute Set Edited');
       res.redirect('/settings/');
   }
 }); 
