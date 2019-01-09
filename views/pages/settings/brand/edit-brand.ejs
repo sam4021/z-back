@@ -25,6 +25,18 @@
                       <input type="text" name="title" class="form-control" value="<%= brand.title %>">
                     </div>
                   </div>
+                  <div class="form-group">
+                    <label for="seo_key" class="col-md-12 col-sm-12 col-xs-12">Seo Keyword</label>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <textarea name="seo_key" id="seo_key" class="form-control"><%= brand.seo.keywords %></textarea>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="description" class="col-md-12 col-sm-12 col-xs-12">Description</label>
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <textarea name="description" id="description" class="tinymce form-control"><%= brand.description %></textarea>
+                    </div>
+                  </div>
             </div>
             <div class="col-md-6">
                 <!-- <div class="form-group">
@@ -39,12 +51,7 @@
                     <input type="text" name="seo_title" class="form-control" value="<%= brand.seo.title %>">
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="seo_key" class="col-md-12 col-sm-12 col-xs-12">Seo Keyword</label>
-                  <div class="col-md-12 col-sm-12 col-xs-12">
-                    <textarea name="seo_key" id="seo_key" class="form-control"><%= brand.seo.keywords %></textarea>
-                  </div>
-                </div>
+                
                 <div class="form-group">
                   <label for="seo_desc" class="col-md-12 col-sm-12 col-xs-12">Seo Description</label>
                   <div class="col-md-12 col-sm-12 col-xs-12">
@@ -59,12 +66,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-              <div class="form-group">
-                <label for="description" class="col-md-12 col-sm-12 col-xs-12">Description</label>
-                <div class="col-md-12 col-sm-12 col-xs-12">
-                  <textarea name="description" id="description" class="tinymce form-control"><%= brand.description %></textarea>
-                </div>
-              </div>
+              
               <div class="col-md-4">
                 <div class="form-actions">
                   <button type="submit" class="btn btn-primary">Submit</button>

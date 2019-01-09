@@ -1488,7 +1488,7 @@ router.post('/add_attribute', function(req,res){
 //Load Edit Attribute
 router.get('/edit-attribute/:id', function(req, res){
   Attributes.findById(req.params.id,function(err, attrib){
-    res.render('pages/settings/edit-attribute',{
+    res.render('pages/settings/attributes/edit-attribute',{
       attrib: attrib
     });
   });
@@ -1756,14 +1756,28 @@ router.post('/add-attribute-set/:id', function(req,res){
       req.flash('success','Attribute Set added');
       res.redirect('/settings/');
   }
-});
+}); 
 
 //Get Attribute Set Form
 router.get('/edit-attribute-set/:id', function(req, res, next){
   Attributes.findById(req.params.id,function(err, attrib){
-    AttribEntities.find({attributes:req.params.id},(err, attEnt)=>{
-      Entities.find({}, function(err, entity){
-        res.render('pages/settings/edit-attribute-set',{
+    AttribEntities.
+    find({attributes:req.params.id}).
+    populate('entities','title',Entities).
+    exec((err, attEnt)=>{
+      var aentArr = [];
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
+        if (attEnt) {
+          attEnt.forEach(e=>{
+            aentArr.push(e.entities);
+          })
+        }
+      Entities.
+      find({_id: { $nin: aentArr } }).
+      exec(function(err, entity){
+        res.render('pages/settings/attributes/edit-attribute-set',{
           attrib: attrib,
           entities: entity,
           attEnt: attEnt
@@ -1772,6 +1786,30 @@ router.get('/edit-attribute-set/:id', function(req, res, next){
     });
   });
 });
+
+//edit Attribute Set Post Route
+router.post('/edit-attribute-set/:id', function(req,res){
+  req.checkBody('entity','Entity is required').notEmpty();
+
+  //Get Errors
+  let errors = req.validationErrors();
+
+  if (errors) {
+    res.render('pages/settings/edit-attribute-set/'+req.params.id,{
+      errors: errors
+    });
+  } else {
+      for (var i of req.body.entity) {
+        let Attrib= new AttribEntities();
+        Attrib.attributes = req.params.id;
+        Attrib.entities = i;
+        Attrib.save();
+    }
+
+      req.flash('success','Attribute Set added');
+      res.redirect('/settings/');
+  }
+}); 
 
 //Remove Attribute Set
 router.get('/remove-att-set/:id', function(req, res, next){
