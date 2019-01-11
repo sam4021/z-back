@@ -28,6 +28,8 @@ let PhoneMainShipping = require('../models/phone_main_shipping');
 let PhoneMainCategoryFoot = require('../models/phone_main_categories_foot');
 let PhoneMainFoot = require('../models/phone_main_foot');
 let PhoneMainSeo = require('../models/phone_main_seo');
+let PhoneMainOffer = require('../models/phone_main_offers');
+
 
 let SaleWeb = require('../models/sale_web');
 let SaleWebContactSeller = require('../models/sale_web_contact_seller');
@@ -218,6 +220,15 @@ router.get('/products-offer',(req, res, next)=>{
     }
     res.send(prodArr);
   });
+});
+
+router.get('/products-offer-selec',(req, res, next)=>{
+  PhoneMainOffer
+  .findById('5c123c3e6757055a4cfec55c')
+  .populate('products','title url price special_price ' , Products)
+  .exec((err,offer)=>{
+    res.send(offer);
+  })
 });
 
 //Get All Products Offer extra
