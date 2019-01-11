@@ -225,7 +225,7 @@ router.get('/products-offer',(req, res, next)=>{
 router.get('/products-offer-selec',(req, res, next)=>{
   PhoneMainOffer
   .findById('5c123c3e6757055a4cfec55c')
-  .populate('products','title url price special_price ' , Products)
+  .populate('products','title url price special_price images' , Products)
   .exec((err,offer)=>{
     res.send(offer);
   })
