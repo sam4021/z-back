@@ -64,8 +64,9 @@ balance=GTotal-fAmount; %>
       <option value="Cancelled" <% if(sale.status=='Cancelled'){ %> selected/<% } %>>Cancelled</option>
       <% if(balance==0){ %><option value="Closed" <% if(sale.status=='Closed'){ %> selected <% } %>>Closed</option> <% } %>
     </select>
+    <a class="btn btn-outline-success pull-right" href="/sale/view/<%= sale.id %>/invoice">Invoice</a>
     <% if(balance==0){ %>
-      <button class="btn btn-outline-success pull-right" type="button" data-toggle="modal" data-target="#salePdf-Modal">Cash Sale</button>
+      <!-- <button class="btn btn-outline-success pull-right" type="button" data-toggle="modal" data-target="#salePdf-Modal">Cash Sale</button> -->
     <% }else{ %>
       <!-- <button class="btn btn-outline-primary pull-right" type="button" data-toggle="modal" data-target="#invoice-Modal">Invoice</button> -->
     <% } %>

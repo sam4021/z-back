@@ -640,6 +640,25 @@ router.post('/status_edit/:id', (req, res, next) => {
          res.redirect('/sale/view/'+req.body.id);
 });
 
+router.get('/view/:id/invoice', function(req, res, next){
+  Sale.findById(req.params.id,function(err, sale){
+    Client.find({},function(err, client){
+      SaleProducts.find({sale:req.params.id}).
+      populate({path:'product',select:'title', model: Products}).
+      exec((err, sale_products)=>{
+              PaymentClient.find({}, (err, payment)=>{
+                    res.render('pages/sale/sale_invoice',{
+                      client:client,
+                      saleProd: sale_products,
+                      sale: sale,
+                      payment: payment
+                  })
+          
+      });
+    });
+  });
+  });
+});
 ////////////////////////////////
 ////////AJax Functions/////////
 ///////////////////////////////
