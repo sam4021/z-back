@@ -242,10 +242,11 @@ router.get('/delete-tag/:id/:tag', (req, res) => {
 router.post('/add-associated/:id', (req, res) => {
   Products.findById(req.params.id, function(err, product){
     let query = {_id: req.params.id};
-    let associated = req.body.associated;
-    let newassociated = product.associated;
-    if (newassociated == '') {
-      newassociated = associated;
+    let associated = req.body.prod;
+    let newassociated = product.associated; 
+    
+    if (newassociated == '' || newassociated == null) {
+      newassociated = associated; 
     } else {
       newassociated.push(associated);
     }

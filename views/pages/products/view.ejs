@@ -238,7 +238,7 @@
 			<h5>Associated Products</h5>
 			<div class="row">
 				<div class="col-md-12">
-					<%= products.associated %>
+					<%= products %>
 				</div>
 			</div>
 	  </div>
@@ -290,6 +290,11 @@
       <div id="associated-body" class="modal-body">
 				<form action="/products/add-associated/<%= products.id %>" method="post" autocomplete="off">
 					<div class="row">
+							<div class="col-md-12">
+									<div class="form-actions">
+										 <button type="submit" class="btn btn-primary">Submit</button>
+									 </div>
+								</div>
 					<div class="col-md-12">
 							<table class="table table-striped table-hover table-sm data-tables-select">
 									<thead class="thead-dark">
@@ -310,11 +315,7 @@
 									</tbody>
 							</table>
 					 </div>
-					<div class="col-md-12">
-						<div class="form-actions">
-							 <button type="submit" class="btn btn-primary">Submit</button>
-						 </div>
-					</div>
+					
 					</div>
 			 </form>
       </div>
