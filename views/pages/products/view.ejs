@@ -28,6 +28,7 @@
 		<a href="/products/edit-seo/<%= products.id %>" class="btn btn-outline-success btn-sm">Edit SEO</a>
 		<a href="/products/add-vendor/<%= products.id %>" class="btn btn-outline-primary btn-sm" >Add Vendor</a>
 		<button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#tag-Modal">Add Tag</button>
+		<button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#associated-Modal">Add Associated</button>
 	</div>
 </div>
 <div class="page-content">
@@ -46,6 +47,9 @@
 		</li>
 		<li class="nav-item">
 			<a class="nav-link" id="seo-tab" data-toggle="tab" href="#seo" role="tab" aria-controls="seo" aria-selected="false">SEO</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="associated-tab" data-toggle="tab" href="#associated" role="tab" aria-controls="associated" aria-selected="false">Associated</a>
 		</li>
 	</ul>
 	<div class="tab-content">
@@ -229,6 +233,14 @@
 					</div>
 				</div>
 			</div>
+		</div>
+		<div class="tab-pane" id="associated" role="tabpanel" aria-labelledby="associated-tab">
+			<h5>Associated Products</h5>
+			<div class="row">
+				<div class="col-md-12">
+					<%= products.associated %>
+				</div>
+			</div>
 	  </div>
 	</div>
   <input type="hidden" name="id" value="<%= products.id %>">
@@ -256,6 +268,47 @@
 		 							</select>
 							 </div>
 						 </div>
+					 </div>
+					<div class="col-md-12">
+						<div class="form-actions">
+							 <button type="submit" class="btn btn-primary">Submit</button>
+						 </div>
+					</div>
+					</div>
+			 </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="associated-Modal" tabindex="-1" role="dialog" aria-labelledby="associatedModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="associatedModalLabel"></h4>
+      </div>
+      <div id="associated-body" class="modal-body">
+				<form action="/products/add-associated/<%= products.id %>" method="post" autocomplete="off">
+					<div class="row">
+					<div class="col-md-12">
+							<table class="table table-striped table-hover table-sm data-tables-select">
+									<thead class="thead-dark">
+										<tr>
+											<th scope="col"></th>
+											<th scope="col">Title</th>
+											<th scope="col">Price</th>
+										</tr>
+									</thead>
+									<tbody>
+										<% for(var product of allprod){ %>
+										<tr>
+												<td><input type="checkbox" name="prod[]" value="<%= product.id %>"></td>
+												<td><%= product.title %></td>
+												<td><%= product.price %></td>
+										</tr>
+										<% } %>
+									</tbody>
+							</table>
 					 </div>
 					<div class="col-md-12">
 						<div class="form-actions">

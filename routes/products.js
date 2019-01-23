@@ -238,6 +238,36 @@ router.get('/delete-tag/:id/:tag', (req, res) => {
   });
 });
 
+//Update Product info Tags
+router.post('/add-associated/:id', (req, res) => {
+  Products.findById(req.params.id, function(err, product){
+    let query = {_id: req.params.id};
+    let associated = req.body.associated;
+    let newassociated = product.associated;
+    if (newassociated == '') {
+      newassociated = associated;
+    } else {
+      newassociated.push(associated);
+    }
+    Products.update(query,{ associated: newassociated}).exec();
+    res.redirect('/products/view/'+req.params.id);
+  });
+});
+
+//Remove Product Tags
+router.get('/delete-associated/:id/:tag', (req, res) => {
+  Products.findById(req.params.id, function(err, product){
+    let query = {_id: req.params.id};
+    let tag = req.params.tag;
+
+    let oldTags = product.tags;
+    var pos = oldTags.indexOf(tag);
+    oldTags.splice(pos, 1);
+    Products.update(query,{ tags: oldTags}).exec();
+    res.redirect('/products/view/'+req.params.id);
+  });
+});
+
 //Remove All Product Tags
 router.get('/delete-tag-all/:id', (req, res) => {
     let query = {_id: req.params.id};

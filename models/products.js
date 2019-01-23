@@ -78,7 +78,11 @@ const ProductsSchema = mongoose.Schema({
   desc_entity: [{
     entity:{type:ObjectId, ref: 'Entities'},
     value:{type:String, required: true}     
-}]
+  }],
+  associated: {
+    type: Array,
+    default: ''
+  }
 });
 
 ProductsSchema.plugin(timestamps,  {
