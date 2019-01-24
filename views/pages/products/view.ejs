@@ -238,7 +238,25 @@
 			<h5>Associated Products</h5>
 			<div class="row">
 				<div class="col-md-12">
-					<%= products %>
+						<table class="table table-striped table-hover table-sm data-tables">
+								<thead class="thead-dark">
+			      			<tr>
+										<th scope="col">Title</th>
+										<th scope="col"></th>
+			              <th scope="col" class="actions">Actions</th>
+			      			</tr>
+			      		</thead>
+			      		<tbody>
+			            <% for(var ass of assoc){ %>
+			              <tr>
+											<td><%= ass.title %></td>
+											<td><%= ass.price %>  </td>
+			                <td><a class="btn btn-danger btn-sm" href="/products/delete-associated/<%= products.id %>/<%= ass.id %>">delete</a></td>
+			              </tr>
+			            <% } %>
+			      		</tbody>
+			      	</table>
+					<%=  %>
 				</div>
 			</div>
 	  </div>

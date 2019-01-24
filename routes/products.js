@@ -186,6 +186,15 @@ router.get('/view/:id', function(req, res, next){
                   AttribEntities.find({},(err,a_entity)=>{
                     Products.find({}, function(err, allprod){
                       Tags.find({}, function(err, tags){
+                        Products.find()
+                        .where('_id')
+                        .in(products.associated)
+                        .exec(function (err, assoc) {
+                          if (err) {
+                            return res.status(500).send({message: err.message});
+                          }
+                
+                        
                         res.render('pages/products/view',{
                           products: products,
                           pvendor:pvendor,
@@ -195,9 +204,11 @@ router.get('/view/:id', function(req, res, next){
                           entity: entity,
                           a_entity: a_entity,
                           allprod:allprod,
-                          tags: tags
+                          tags: tags,
+                          assoc: assoc
                   });
                 });
+              });
                 });
               });
             });
@@ -256,15 +267,15 @@ router.post('/add-associated/:id', (req, res) => {
 });
 
 //Remove Product Tags
-router.get('/delete-associated/:id/:tag', (req, res) => {
+router.get('/delete-associated/:id/:associated', (req, res) => {
   Products.findById(req.params.id, function(err, product){
     let query = {_id: req.params.id};
-    let tag = req.params.tag;
+    let associated = req.params.associated;
 
-    let oldTags = product.tags;
-    var pos = oldTags.indexOf(tag);
-    oldTags.splice(pos, 1);
-    Products.update(query,{ tags: oldTags}).exec();
+    let oldAssociated = product.associated;
+    var pos = oldAssociated.indexOf(associated);
+    oldAssociated.splice(pos, 1);
+    Products.update(query,{ associated: oldAssociated}).exec();
     res.redirect('/products/view/'+req.params.id);
   });
 });
