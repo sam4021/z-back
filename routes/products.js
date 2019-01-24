@@ -186,9 +186,15 @@ router.get('/view/:id', function(req, res, next){
                   AttribEntities.find({},(err,a_entity)=>{
                     Products.find({}, function(err, allprod){
                       Tags.find({}, function(err, tags){
+                        var assoc_;
+                        if (products.associated =="" || products.associated ==null) {
+                          assoc_=[];
+                        } else {
+                          assoc_ = products.associated;
+                        }
                         Products.find()
                         .where('_id')
-                        .in(products.associated)
+                        .in(assoc_)
                         .exec(function (err, assoc) {
                           if (err) {
                             return res.status(500).send({message: err.message});
