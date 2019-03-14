@@ -40,9 +40,9 @@ const CategorySchema = mongoose.Schema({
     default: ''
   },
   banner: {
-    img:{type: String,required: true},
-    link:{type: String,required: true},
-    alt:{type: String,required: true}
+    img:{type: String,required: false},
+    link:{type: String,required: false},
+    alt:{type: String,required: false}
   },
 });
 
