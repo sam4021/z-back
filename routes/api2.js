@@ -899,6 +899,27 @@ router.get('/category-top', function(req, res, next){
   });
 });
 
+//Get Top Categories
+router.get('/category-bottom', function(req, res, next){
+  Category.
+  find({visible:0}).
+  where("parent").
+  ne(0).
+  exec(function (err, category) {
+    if (err) console.log(err);
+    let catArr = [];
+    if (err) {
+      return res.status(500).send({message: err.message});
+    }
+    if (category) {
+      category.forEach(cat => {
+        catArr.push(cat);
+      });
+    }
+    res.send(catArr);
+  });
+});
+
 //Get Category Brand
 router.get('/brand/:id', function(req, res, next){
   Brand.
