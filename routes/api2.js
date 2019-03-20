@@ -900,11 +900,9 @@ router.get('/category-top', function(req, res, next){
 });
 
 //Get Top Categories
-router.get('/category-bottom', function(req, res, next){
+router.get('/all-menu', function(req, res, next){
   Category.
-  find({visible:0}).
-  where("parent").
-  ne(0).
+  find({visible:1}).
   exec(function (err, category) {
     if (err) console.log(err);
     let catArr = [];
