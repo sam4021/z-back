@@ -13,6 +13,7 @@ var JwtStrategy = require('passport-jwt').Strategy,
 let UserWeb = require('../models/user_web');
 let Products = require('../models/products'); 
 let Blog = require('../models/blog');
+let Attributes = require('../models/product_attributes');
 let Category = require('../models/product_category');
 let Entities = require('../models/product_entities');
 let Brand = require('../models/product_brand');
@@ -37,6 +38,124 @@ let SaleWebContactSeller = require('../models/sale_web_contact_seller');
 /////////////////////////////////////////////////////////////
 ////////////API Products INFO////////////////////////////////
 /////////////////////////////////////////////////////////////
+
+//Get All Entity
+router.get('/all-prodent', function(req, res, next){
+  ProductEntities.find()
+      .exec(function (err, attrib) {
+        let attribArr = [];
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
+        if (attrib) {
+          attrib.forEach(attrib => {
+            attribArr.push(attrib);
+          });
+        }
+        res.send(attribArr);
+      });
+});
+
+ //Get All Entity
+ router.get('/all-attribent', function(req, res, next){
+  AttribEntities.find()
+      .exec(function (err, attrib) {
+        let attribArr = [];
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
+        if (attrib) {
+          attrib.forEach(attrib => {
+            attribArr.push(attrib);
+          });
+        }
+        res.send(attribArr);
+      });
+});
+
+ //Get All Entity
+ router.get('/all-entity', function(req, res, next){
+  Entities.find()
+      .exec(function (err, attrib) {
+        let attribArr = [];
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
+        if (attrib) {
+          attrib.forEach(attrib => {
+            attribArr.push(attrib);
+          });
+        }
+        res.send(attribArr);
+      });
+});
+
+//Get All Products
+router.get('/all-products', function(req, res, next){
+  Products.find({deleted:0})
+      .exec(function (err, attrib) {
+        let attribArr = [];
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
+        if (attrib) {
+          attrib.forEach(attrib => {
+            attribArr.push(attrib);
+          });
+        }
+        res.send(attribArr);
+      });
+});
+
+ //Get All Vendor
+ router.get('/all-vendor', function(req, res, next){
+  Vendor.find()
+      .exec(function (err, attrib) {
+        let attribArr = [];
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
+        if (attrib) {
+          attrib.forEach(attrib => {
+            attribArr.push(attrib);
+          });
+        }
+        res.send(attribArr);
+      });
+});
+router.get('/all-vendorprod', function(req, res, next){
+  ProductsVendor.find()
+      .exec(function (err, attrib) {
+        let attribArr = [];
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
+        if (attrib) {
+          attrib.forEach(attrib => {
+            attribArr.push(attrib);
+          });
+        }
+        res.send(attribArr);
+      });
+});
+
+//Get All attributes
+router.get('/all-attributes', function(req, res, next){
+  Attributes.find()
+      .exec(function (err, attrib) {
+        let attribArr = [];
+        if (err) {
+          return res.status(500).send({message: err.message});
+        }
+        if (attrib) {
+          attrib.forEach(attrib => {
+            attribArr.push(attrib);
+          });
+        }
+        res.send(attribArr);
+      });
+});
+
 
 //Get Main Slider
 router.get('/main-slider', function(req, res, next){
