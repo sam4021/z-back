@@ -92,7 +92,7 @@ router.get('/all-prodent', function(req, res, next){
 
 //Get All Products
 router.get('/all-products', function(req, res, next){
-  Products.find({deleted:0})
+  Products.find({is_active: 1,deleted:0})
       .exec(function (err, attrib) {
         let attribArr = [];
         if (err) {
