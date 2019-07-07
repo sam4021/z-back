@@ -18,6 +18,7 @@ let Category = require('../models/product_category');
 let Entities = require('../models/product_entities');
 let Brand = require('../models/product_brand');
 let PhoneProductsFeatured = require('../models/phone_products_featured');
+let AttribEntities = require('../models/product_attributesEntities');
 let PhoneMainCategory = require('../models/phone_main_category');
 let DeliveryLocation = require('../models/delivery_locations');
 let CourierLocation = require('../models/courier_location');
@@ -352,23 +353,29 @@ router.get('/products-offer-selec',(req, res, next)=>{
 
 //Get All Products Offer extra
 router.get('/products_offer_extra',(req, res, next)=>{
-  Products.find({is_active: 1,deleted: 0}).
-  select('title url price images special_price ').
-  where("special_price").
-  ne(0).
-  limit(4).
-    exec((err, products)=>{
-    let prodArr = [];
-    if (err) {
-      return res.status(500).send({message: err.message});
-    }
-    if (products) {
-      products.forEach(prod => {
-        prodArr.push(prod);
-      });
-    }
-    res.send(prodArr);
-  });
+  // Products.find({is_active: 1,deleted: 0}).
+  // select('title url price images special_price ').
+  // where("special_price").
+  // ne(0).
+  // limit(4).
+  //   exec((err, products)=>{
+  //   let prodArr = [];
+  //   if (err) {
+  //     return res.status(500).send({message: err.message});
+  //   }
+  //   if (products) {
+  //     products.forEach(prod => {
+  //       prodArr.push(prod);
+  //     });
+  //   }
+  //   res.send(prodArr);
+  // });
+  PhoneMainOffer
+  .findById('5c123c3e6757055a4cfec55c')
+  .populate('products','title url price special_price images' , Products)
+  .exec((err,offer)=>{
+    res.send(offer);
+  })
 });
 
 //Get Featured Products
