@@ -374,7 +374,21 @@ router.get('/products_offer_extra',(req, res, next)=>{
   .findById('5c123c3e6757055a4cfec55c')
   .populate('products','title url price special_price images' , Products)
   .exec((err,offer)=>{
-    res.send(offer);
+    let prodArr = [];
+    if (err) {
+      return res.status(500).send({message: err.message});
+    }
+    if (offer) {
+      // offer.products.forEach(prod => {
+      //   prodArr.push(prod);
+      // });
+      for (let i = 0; i < 4; i++) {
+        // const element =  offer.products[i];
+        prodArr.push(offer.products[i]);
+      }
+
+    }
+    res.send(prodArr);
   })
 });
 
